@@ -37,6 +37,7 @@ public class SplashActivity extends AppCompatActivity {
             @Override
             public void onAnimationEnd(Animation animation) {
 
+//                After the animation ended
                 new Thread(new Runnable() {
                     @Override
                     public void run() {

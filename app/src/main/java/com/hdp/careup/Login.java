@@ -45,7 +45,7 @@ public class Login extends Fragment {
             }
         });
 
-//        Click on ** login with mobile **
+//        Click on ** login with mobile ***
         view.findViewById(R.id.login_withMobile).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
