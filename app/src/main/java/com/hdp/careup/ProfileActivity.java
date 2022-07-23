@@ -1,6 +1,7 @@
 package com.hdp.careup;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
@@ -30,18 +31,27 @@ public class ProfileActivity extends AppCompatActivity {
                     System.out.println("Item ID : "+item.getItemId());
 
                     if(item.getItemId() == 2131362316){
-    //                    transaction.replace(R.id.profile_container, new Profile(), "profile loaded");
-    //                    transaction.commit();
-                    }else if(item.getItemId() == 2131362168){
-    //                    transaction.replace(R.id.profile_container, new Profile(), "profile loaded");
-    //                    transaction.commit();
+                        getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.profile_container, new Profile(), "profile loaded")
+                        .commit();
+                    }else if(item.getItemId() == 2131362332){
+                        System.out.println("item mounted");
+                        getSupportFragmentManager().beginTransaction().replace(R.id.profile_container, new Tracking(), "Tracking loaded")
+                                .commit();
                     }
                     return true;
                 });
 
         BottomNavigationView navView2 = findViewById(R.id.bottom_navigation);
         navView2.setOnItemReselectedListener(item -> {
-
+//            if(item.getItemId() == 2131362316){
+//                System.out.println("item removed");
+//                Fragment oldFragment = getSupportFragmentManager().findFragmentById(R.id.profile);
+//                getSupportFragmentManager().beginTransaction().remove(oldFragment).commit();
+//            }else if(item.getItemId() == 2131362332){
+//                Fragment oldFragment = getSupportFragmentManager().findFragmentById(R.id.tracker);
+//                getSupportFragmentManager().beginTransaction().remove(oldFragment).commit();
+//            }
         });
 
     }
