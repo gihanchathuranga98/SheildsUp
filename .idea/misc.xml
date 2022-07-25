@@ -13,6 +13,8 @@
         <entry key="app/src/main/res/drawable/link_button.xml" value="0.1295" />
         <entry key="app/src/main/res/drawable/outline_btn.xml" value="0.1295" />
         <entry key="app/src/main/res/drawable/profile.xml" value="0.1065" />
+        <entry key="app/src/main/res/drawable/profile_pic.xml" value="0.1145" />
+        <entry key="app/src/main/res/drawable/profile_view.xml" value="0.1145" />
         <entry key="app/src/main/res/drawable/text_feild.xml" value="0.1295" />
         <entry key="app/src/main/res/drawable/textfeild.xml" value="0.1295" />
         <entry key="app/src/main/res/font/inter_bold.xml" value="0.1" />
@@ -25,9 +27,11 @@
         <entry key="app/src/main/res/layout/fragment_login.xml" value="0.375" />
         <entry key="app/src/main/res/layout/fragment_mobile_login.xml" value="0.335" />
         <entry key="app/src/main/res/layout/fragment_password_access.xml" value="0.375" />
+        <entry key="app/src/main/res/layout/fragment_profile.xml" value="0.25" />
         <entry key="app/src/main/res/layout/fragment_recover_password.xml" value="0.335" />
         <entry key="app/src/main/res/layout/fragment_register.xml" value="0.335" />
         <entry key="app/src/main/res/layout/fragment_set_password.xml" value="0.45" />
+        <entry key="app/src/main/res/layout/fragment_tracking.xml" value="0.25" />
         <entry key="app/src/main/res/menu/bottom_navigation_menu.xml" value="0.46068572998046875" />
       </map>
     </option>

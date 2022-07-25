@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
-        android:id="@+id/page_1"
+        android:id="@+id/profile"
         android:enabled="true"
         android:icon="@drawable/profile"
         android:title="Profile"/>
     <item
-        android:id="@+id/page_2"
+        android:id="@+id/tracker"
         android:enabled="true"
         android:icon="@drawable/tracking"
         android:title="Tracking"/>
 
     <item
-        android:id="@+id/page_3"
+        android:id="@+id/settings"
         android:enabled="true"
         android:icon="@drawable/settings"
         android:title="Settings"/>

@@ -55,6 +55,7 @@ public class Login extends Fragment {
                 transaction.commit();
             }
         });
+//        testing push
 
 //        click on ** forget password **
         view.findViewById(R.id.login_forgotPassword).setOnClickListener(new View.OnClickListener() {
