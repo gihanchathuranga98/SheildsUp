@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "197645658497",
+    "project_id": "sheildup",
+    "storage_bucket": "sheildup.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:197645658497:android:d0806c1645208c2a80a080",
+        "android_client_info": {
+          "package_name": "com.hdp.careup"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "197645658497-qame7sa6ava2c3uapal8bk2lr04m9pue.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyACEhQ9gIh5Kkou-0lPNly21XiPY-lDGcw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "197645658497-qame7sa6ava2c3uapal8bk2lr04m9pue.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

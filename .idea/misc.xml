@@ -11,7 +11,9 @@
         <entry key="app/src/main/res/drawable/img_background.xml" value="0.1285" />
         <entry key="app/src/main/res/drawable/link_btn.xml" value="0.1295" />
         <entry key="app/src/main/res/drawable/link_button.xml" value="0.1295" />
+        <entry key="app/src/main/res/drawable/list_item.xml" value="0.228" />
         <entry key="app/src/main/res/drawable/outline_btn.xml" value="0.1295" />
+        <entry key="app/src/main/res/drawable/phone.xml" value="0.228" />
         <entry key="app/src/main/res/drawable/profile.xml" value="0.1065" />
         <entry key="app/src/main/res/drawable/profile_pic.xml" value="0.1145" />
         <entry key="app/src/main/res/drawable/profile_view.xml" value="0.1145" />
@@ -27,7 +29,7 @@
         <entry key="app/src/main/res/layout/fragment_login.xml" value="0.375" />
         <entry key="app/src/main/res/layout/fragment_mobile_login.xml" value="0.335" />
         <entry key="app/src/main/res/layout/fragment_password_access.xml" value="0.375" />
-        <entry key="app/src/main/res/layout/fragment_profile.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/fragment_profile.xml" value="0.335" />
         <entry key="app/src/main/res/layout/fragment_recover_password.xml" value="0.335" />
         <entry key="app/src/main/res/layout/fragment_register.xml" value="0.335" />
         <entry key="app/src/main/res/layout/fragment_set_password.xml" value="0.45" />

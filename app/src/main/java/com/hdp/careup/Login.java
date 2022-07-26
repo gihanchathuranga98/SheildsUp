@@ -13,6 +13,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.google.firebase.auth.FirebaseAuth;
+
 import java.util.zip.Inflater;
 
 /**
@@ -21,6 +23,8 @@ import java.util.zip.Inflater;
  * create an instance of this fragment.
  */
 public class Login extends Fragment {
+
+
 
     @Nullable
     @Override
@@ -31,6 +35,8 @@ public class Login extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+
 
 
 //        Click on ** Create New Account **

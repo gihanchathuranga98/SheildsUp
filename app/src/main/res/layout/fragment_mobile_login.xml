@@ -72,7 +72,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/textView" />
 
             <EditText
-                android:id="@+id/editTextTextPersonName4"
+                android:id="@+id/text_mobileNo"
                 android:layout_width="wrap_content"
                 android:layout_height="45dp"
                 android:layout_marginStart="10dp"
@@ -102,7 +102,7 @@
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp"
                 android:textAlignment="center"
-                app:layout_constraintEnd_toStartOf="@+id/editTextTextPersonName4"
+                app:layout_constraintEnd_toStartOf="@+id/text_mobileNo"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textView4" />
 
@@ -115,7 +115,7 @@
                 android:textAllCaps="false"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/editTextTextPersonName4" />
+                app:layout_constraintTop_toBottomOf="@+id/text_mobileNo" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
