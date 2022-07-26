@@ -30,7 +30,9 @@ import com.google.firebase.auth.PhoneAuthCredential;
 import com.google.firebase.auth.PhoneAuthOptions;
 import com.google.firebase.auth.PhoneAuthProvider;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.concurrent.TimeUnit;
@@ -48,13 +50,13 @@ public class GetOtp extends Fragment {
     private String mVerificationId;
     private SharedPreferences preferences;
     private FirebaseFirestore db;
-    private User user;
+    private User userDetails;
 
-    public GetOtp(){
+    public GetOtp() {
 
     }
 
-    public GetOtp(@Nullable String mobileNo){
+    public GetOtp(@Nullable String mobileNo) {
         this();
         this.mobileNo = mobileNo;
         Log.i("OTP", "GetOtp: Mobile No. : " + mobileNo);
@@ -80,14 +82,14 @@ public class GetOtp extends Fragment {
         db = FirebaseFirestore.getInstance();
 
 //        User objects to keep the user details
-        user = new User();
+        userDetails = new User();
 
         ProgressDialog progressDialog = new ProgressDialog(getContext());
         progressDialog.setMessage("Sending OTP...\n(This may take some time)");
         progressDialog.setCancelable(false);
         progressDialog.show();
 
-        mCallbacks = new PhoneAuthProvider.OnVerificationStateChangedCallbacks(){
+        mCallbacks = new PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
 
             @Override
             public void onVerificationCompleted(@NonNull PhoneAuthCredential phoneAuthCredential) {
@@ -119,10 +121,10 @@ public class GetOtp extends Fragment {
         view.findViewById(R.id.btn_verify_otp).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(!((EditText)view.findViewById(R.id.text_otp)).getText().equals("")){
-                    String otp = ((EditText)view.findViewById(R.id.text_otp)).getText().toString();
+                if (!((EditText) view.findViewById(R.id.text_otp)).getText().equals("")) {
+                    String otp = ((EditText) view.findViewById(R.id.text_otp)).getText().toString();
                     verifyOtp(otp);
-                }else{
+                } else {
                     Log.i("OTP", "OTP is Empty");
                 }
 
@@ -144,10 +146,11 @@ public class GetOtp extends Fragment {
                 .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
-                        if(task.isSuccessful()){
+                        if (task.isSuccessful()) {
                             FirebaseUser user = task.getResult().getUser();
-                            updateUI(user);
                             Log.i("OTP", "onComplete: OTP Success");
+                            updateUI(user);
+
                         }
                     }
                 }).addOnFailureListener(new OnFailureListener() {
@@ -164,59 +167,74 @@ public class GetOtp extends Fragment {
         SharedPreferences.Editor editor = preferences.edit();
         editor.putString("UUID", uuid);
         editor.putString("mobile", mobileNo);
-        Log.i("OTP", "User UUID is : "+preferences.getString("UUID", "N/A"));
+        Log.i("OTP", "User UUID is : " + preferences.getString("UUID", "N/A"));
 
 //        getting data from the firestore to check the available stat of the logged in user.
 //        using this i will check the is user's display name is available?
-        db.collection("users").get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if(task.isSuccessful()){
-                            Log.i("OTP", "Task Success");
-                            QuerySnapshot result = task.getResult();
-                            if(!result.getDocuments().contains(uuid)){
 
-//                                add data to the firestore
-                                db.collection("users").document(uuid).set(user).addOnSuccessListener(new OnSuccessListener<Void>() {
-                                    @Override
-                                    public void onSuccess(Void unused) {
-                                        Toast.makeText(getContext(), "Firebase Updated", Toast.LENGTH_LONG).show();
-                                        Log.i("OTP", "UUID onSuccess");
-                                    }
-                                }).addOnFailureListener(new OnFailureListener() {
-                                    @Override
-                                    public void onFailure(@NonNull Exception e) {
-                                        Toast.makeText(getContext(), "Firebase Update faild", Toast.LENGTH_LONG).show();
-                                        Log.i("OTP", "UUID onFaliure");
-                                    }
-                                });
+        Task<QuerySnapshot> querySnapshotTask = db.collection("users").get();
+        querySnapshotTask.addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if (task.isSuccessful()) {
+                    Log.i("OTP", "Task Success");
+                    QuerySnapshot result = task.getResult();
 
-                            }else{
+                    boolean available = false;
 
-//                                get data from firestore
-                                Log.i("OTP", "User Already Exists");
-//                                TODO -> get data from firebase and store in the shared preference
+                    for (DocumentSnapshot s : task.getResult().getDocuments()) {
+                        Log.i("OTP", "DOC path: " + s.getId());
 
-                            }
-                        }else{
-
-                            Log.i("OTP", "Task Faild");
-//                            TODO -> show that the task is faild
-
+                        if (s.getId().equals(uuid)) {
+                            Log.i("OTP", "Equal doc path has been found : " + uuid);
+                            available = true;
+                            break;
                         }
                     }
-                }).addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
 
+                    if (!available) {
+//                        TODO -> user is not available
+
+                        Log.i("OTP", "user is not available");
+
+//                                add data to the firestore
+                        db.collection("users").document(uuid).set(userDetails).addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void unused) {
+                                Toast.makeText(getContext(), "Firebase Updated", Toast.LENGTH_LONG).show();
+                                Log.i("OTP", "UUID onSuccess");
+                            }
+                        }).addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                Toast.makeText(getContext(), "Firebase Update faild", Toast.LENGTH_LONG).show();
+                                Log.i("OTP", "UUID onFaliure");
+                            }
+                        });
+
+                    }else{
+//                        TODO -> user is available - get the user details
+                        Log.i("OTP", "User is available");
+//                        getParentFragmentManager().beginTransaction().replace(R.id.login_fragment_container, new GetUserDetails(), "GET_USER_DETAILS").commit();
                     }
-                });
+                } else {
+
+                    Log.i("OTP", "Task Faild");
+//                            TODO -> show that the task is faild
+
+                }
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+
+            }
+        });
     }
 
 
     private void sendMobileNo(String mobileNo) {
-        user.setMobile(mobileNo);
+        userDetails.setMobile(mobileNo);
         Log.i("OTP", "sendMobileNo: Mobile No has set");
         PhoneAuthOptions options =
                 PhoneAuthOptions.newBuilder(firebaseAuth)

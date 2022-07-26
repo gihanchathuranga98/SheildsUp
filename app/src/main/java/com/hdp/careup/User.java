@@ -6,6 +6,18 @@ public class User {
     private String displayName;
     private String mobile;
 
+    public User() {
+    }
+
+    public User(String fName, String lName, String displayName, String mobile, String email) {
+        this();
+        this.fName = fName;
+        this.lName = lName;
+        this.displayName = displayName;
+        this.mobile = mobile;
+        this.email = email;
+    }
+
     public String getfName() {
         return fName;
     }
