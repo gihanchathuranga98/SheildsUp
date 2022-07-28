@@ -3,9 +3,11 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="../../../../layout/custom_preview.xml" value="0.13878896882494005" />
         <entry key="app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.1295" />
         <entry key="app/src/main/res/drawable/back_btn.xml" value="0.169" />
         <entry key="app/src/main/res/drawable/container.xml" value="0.1295" />
+        <entry key="app/src/main/res/drawable/ic_baseline_arrow_forward_24.xml" value="0.113" />
         <entry key="app/src/main/res/drawable/ic_launcher_background.xml" value="0.1295" />
         <entry key="app/src/main/res/drawable/img.xml" value="0.1285" />
         <entry key="app/src/main/res/drawable/img_background.xml" value="0.1285" />
@@ -26,7 +28,8 @@
         <entry key="app/src/main/res/layout/app_container.xml" value="0.13044579533941236" />
         <entry key="app/src/main/res/layout/fragment_display_name.xml" value="0.335" />
         <entry key="app/src/main/res/layout/fragment_get_otp.xml" value="0.375" />
-        <entry key="app/src/main/res/layout/fragment_login.xml" value="0.375" />
+        <entry key="app/src/main/res/layout/fragment_get_user_details.xml" value="0.335" />
+        <entry key="app/src/main/res/layout/fragment_login.xml" value="0.30697174072265626" />
         <entry key="app/src/main/res/layout/fragment_mobile_login.xml" value="0.335" />
         <entry key="app/src/main/res/layout/fragment_password_access.xml" value="0.375" />
         <entry key="app/src/main/res/layout/fragment_profile.xml" value="0.335" />

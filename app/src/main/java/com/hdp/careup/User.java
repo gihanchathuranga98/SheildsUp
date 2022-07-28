@@ -5,6 +5,7 @@ public class User {
     private String lName;
     private String displayName;
     private String mobile;
+    private int userStat;
 
     public User() {
     }
@@ -59,4 +60,12 @@ public class User {
     }
 
     private String email;
+
+    public int getUserStat() {
+        return userStat;
+    }
+
+    public void setUserStat(int userStat) {
+        this.userStat = userStat;
+    }
 }

@@ -1,64 +1,133 @@
 package com.hdp.careup;
 
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.content.res.ColorStateList;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
+import android.widget.Toast;
+
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
+import com.google.firebase.firestore.FirebaseFirestore;
+
+import org.w3c.dom.Text;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link GetUserDetails#newInstance} factory method to
+ * Use the {} factory method to
  * create an instance of this fragment.
  */
 public class GetUserDetails extends Fragment {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+    FirebaseFirestore db;
+    SharedPreferences preferences;
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
-
-    public GetUserDetails() {
-        // Required empty public constructor
-    }
-
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment GetUserDetails.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static GetUserDetails newInstance(String param1, String param2) {
-        GetUserDetails fragment = new GetUserDetails();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
+    @Nullable
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
-    }
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_get_user_details, container, false);
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        preferences = getActivity().getSharedPreferences("user_data", Context.MODE_PRIVATE);
+        db = FirebaseFirestore.getInstance();
+
+        TextInputEditText fName = (TextInputEditText) view.findViewById(R.id.user_data_fname_text);
+        TextInputEditText lName = (TextInputEditText) view.findViewById(R.id.user_data_lname_text);
+        TextInputEditText email = (TextInputEditText) view.findViewById(R.id.user_data_email_text);
+
+        getActivity().findViewById(R.id.user_data_next_btn).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(validateForm(fName, lName, email)){
+//                    addUserToFirestore();
+                    getParentFragmentManager().beginTransaction().replace(R.id.login_fragment_container,
+                            new DisplayName(), "GET_DISPLAY_NAME").commit();
+                }
+            }
+        });
+
+        getActivity().findViewById(R.id.user_data_fname_text).setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                TextInputLayout layoutFname = (TextInputLayout)getActivity().findViewById(R.id.user_data_fname);
+                TextInputLayout layoutLname = (TextInputLayout)getActivity().findViewById(R.id.user_data_fname);
+                TextInputLayout layoutEmail = (TextInputLayout)getActivity().findViewById(R.id.user_data_fname);
+
+                if(!fName.getText().toString().trim().isEmpty()){
+                    layoutFname.setHelperTextEnabled(false);
+                }
+
+                if(!lName.getText().toString().trim().isEmpty()){
+                    layoutLname.setHelperTextEnabled(false);
+                }
+
+                if(!email.getText().toString().trim().isEmpty()){
+                    layoutEmail.setHelperTextEnabled(false);
+                }
+
+                return false;
+            }
+        });
+
+    }
+
+    private boolean validateForm(TextInputEditText fName, TextInputEditText lName, TextInputEditText email) {
+
+        boolean validation = true;
+
+        if(!fName.getText().toString().trim().isEmpty()){
+            GetOtp.userDetails.setfName(fName.getText().toString());
+        }else{
+            TextInputLayout layout = (TextInputLayout)getActivity().findViewById(R.id.user_data_fname);
+            layout.setHelperTextEnabled(true);
+            layout.setHelperText("Required*");
+            layout.setHelperTextColor(ColorStateList.valueOf(getResources().getColor(R.color.error)));
+            validation = false;
+        }
+
+        if(!lName.getText().toString().trim().isEmpty()){
+            GetOtp.userDetails.setlName(lName.getText().toString());
+        }else{
+            TextInputLayout layout = (TextInputLayout)getActivity().findViewById(R.id.user_data_lname);
+            layout.setHelperTextEnabled(true);
+            layout.setHelperText("Required*");
+            layout.setHelperTextColor(ColorStateList.valueOf(getResources().getColor(R.color.error)));
+            validation = false;
+        }
+
+        if(!email.getText().toString().trim().isEmpty() && !email.getText().toString().trim().matches("^(.+)@(.+)$")){
+            TextInputLayout layout = (TextInputLayout)getActivity().findViewById(R.id.user_data_email);
+            layout.setHelperTextEnabled(true);
+            layout.setHelperText("Not a valid email");
+            layout.setHelperTextColor(ColorStateList.valueOf(getResources().getColor(R.color.error)));
+            validation = false;
+        }else{
+            GetOtp.userDetails.setEmail(fName.getText().toString());
+        }
+
+//        GetOtp.userDetails.setlName(lName.getText().toString());
+//        GetOtp.userDetails.setEmail(email.getText().toString());
+//        GetOtp.userDetails.setUserStat(1);
+
+        return validation;
     }
 }

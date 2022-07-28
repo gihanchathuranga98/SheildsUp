@@ -1,14 +1,127 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".GetUserDetails">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:layout_height="646dp">
 
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="153dp"
+            android:layout_marginTop="30dp"
+            android:layout_marginEnd="160dp"
+            android:text="User Data"
+            android:textAllCaps="false"
+            android:textColor="@color/primary"
+            android:textSize="30sp"
+            android:textStyle="bold"
+            android:inputType="textEmailAddress"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/createAccount_decription"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="54dp"
+            android:layout_marginLeft="54dp"
+            android:layout_marginTop="7dp"
+            android:layout_marginEnd="54dp"
+            android:layout_marginRight="54dp"
+            android:text="Please fill all of the required details below."
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView2" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/user_data_fname"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="335dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="130dp"
+            android:ems="10"
+            android:hint="First Name"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/user_data_fname_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:inputType="text"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/user_data_lname"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="335dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:ems="10"
+            android:hint="Last Name"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/user_data_fname">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/user_data_lname_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:inputType="text"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/user_data_email"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="335dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:ems="10"
+            android:hint="Recover Email"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/user_data_lname">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/user_data_email_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:inputType="textPersonName"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <Button
+            android:id="@+id/user_data_next_btn"
+            android:layout_width="129dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="68dp"
+            android:drawableRight="@drawable/next_icon"
+            android:drawableTint="@color/white"
+            android:paddingLeft="30dp"
+            android:paddingRight="30dp"
+
+            android:text="Next"
+            android:textAllCaps="false"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/user_data_email" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </FrameLayout>

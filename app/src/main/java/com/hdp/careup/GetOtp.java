@@ -2,6 +2,7 @@ package com.hdp.careup;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 
@@ -50,7 +51,7 @@ public class GetOtp extends Fragment {
     private String mVerificationId;
     private SharedPreferences preferences;
     private FirebaseFirestore db;
-    private User userDetails;
+    public static User userDetails;
 
     public GetOtp() {
 
@@ -167,7 +168,8 @@ public class GetOtp extends Fragment {
         SharedPreferences.Editor editor = preferences.edit();
         editor.putString("UUID", uuid);
         editor.putString("mobile", mobileNo);
-        Log.i("OTP", "User UUID is : " + preferences.getString("UUID", "N/A"));
+        editor.apply();
+        Log.i("OTP", "User UUID is : " + preferences.getString("UUID", "N/A") + " : " + preferences.getString("mobile", "n/a"));
 
 //        getting data from the firestore to check the available stat of the logged in user.
 //        using this i will check the is user's display name is available?
@@ -193,29 +195,30 @@ public class GetOtp extends Fragment {
                     }
 
                     if (!available) {
-//                        TODO -> user is not available
+//                        TODO -> user is not available - REQUEST THE USER DETAILS
 
                         Log.i("OTP", "user is not available");
-
-//                                add data to the firestore
-                        db.collection("users").document(uuid).set(userDetails).addOnSuccessListener(new OnSuccessListener<Void>() {
-                            @Override
-                            public void onSuccess(Void unused) {
-                                Toast.makeText(getContext(), "Firebase Updated", Toast.LENGTH_LONG).show();
-                                Log.i("OTP", "UUID onSuccess");
-                            }
-                        }).addOnFailureListener(new OnFailureListener() {
-                            @Override
-                            public void onFailure(@NonNull Exception e) {
-                                Toast.makeText(getContext(), "Firebase Update faild", Toast.LENGTH_LONG).show();
-                                Log.i("OTP", "UUID onFaliure");
-                            }
-                        });
+                        getParentFragmentManager().beginTransaction().replace(R.id.login_fragment_container, new GetUserDetails(), "GET_USER_DETAILS").commit();
+////                                add data to the firestore
+//                        db.collection("users").document(uuid).set(userDetails).addOnSuccessListener(new OnSuccessListener<Void>() {
+//                            @Override
+//                            public void onSuccess(Void unused) {
+//                                Toast.makeText(getContext(), "Firebase Updated", Toast.LENGTH_LONG).show();
+//                                Log.i("OTP", "UUID onSuccess");
+//                            }
+//                        }).addOnFailureListener(new OnFailureListener() {
+//                            @Override
+//                            public void onFailure(@NonNull Exception e) {
+//                                Toast.makeText(getContext(), "Firebase Update faild", Toast.LENGTH_LONG).show();
+//                                Log.i("OTP", "UUID onFaliure");
+//                            }
+//                        });
 
                     }else{
-//                        TODO -> user is available - get the user details
+//                        TODO -> user is available
                         Log.i("OTP", "User is available");
-//                        getParentFragmentManager().beginTransaction().replace(R.id.login_fragment_container, new GetUserDetails(), "GET_USER_DETAILS").commit();
+                        Intent intent = new Intent(getContext(), ProfileActivity.class);
+                        startActivity(intent);
                     }
                 } else {
 

@@ -14,7 +14,7 @@
             android:id="@+id/textView3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="90dp"
+            android:layout_marginTop="40dp"
             android:fontFamily="@font/inter_bold"
             android:text="Display Name"
             android:textColor="@color/primary"
@@ -35,6 +35,41 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView3" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/displayName"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="335dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="90dp"
+            android:ems="10"
+            android:hint="Display Name"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView3">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/displayName_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:inputType="textPersonName"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <Button
+            android:id="@+id/displayName_submit_btn"
+            android:layout_width="129dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="50dp"
+            android:drawableTint="@color/primary"
+            android:text="Submit"
+            android:textAllCaps="false"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/displayName" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </FrameLayout>

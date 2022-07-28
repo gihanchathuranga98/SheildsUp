@@ -11,7 +11,7 @@
         android:theme="@style/Theme.CareUp">
         <activity
             android:name=".ProfileActivity"
-            android:exported="false" />
+            android:exported="true" />
         <activity
             android:name=".SplashActivity"
             android:exported="true">

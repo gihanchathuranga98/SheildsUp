@@ -193,7 +193,7 @@
             app:strokeColor="@color/primary" />
 
         <Button
-            android:id="@+id/register_submitBtn"
+            android:id="@+id/displayName_submit_btn"
             android:layout_width="129dp"
             android:layout_height="50dp"
             android:layout_marginTop="32dp"
