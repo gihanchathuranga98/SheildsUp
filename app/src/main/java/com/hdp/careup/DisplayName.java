@@ -54,6 +54,8 @@ public class DisplayName extends Fragment {
             public void onClick(View v) {
                 if(isFieldValid(displayName, layout)){
                     addUserToFirestore();
+                    getParentFragmentManager().beginTransaction().replace(R.id.login_fragment_container,
+                            new AddProfilePic(), "ADD_PROFILE_PIC").commit();
                 }
             }
         });
@@ -80,8 +82,6 @@ public class DisplayName extends Fragment {
                     @Override
                     public void onSuccess(Void unused) {
                         Log.i("OTP", "onSuccess: User details have added to the firestore");
-                        Intent intent = new Intent(getContext(), ProfileActivity.class);
-                        startActivity(intent);
                     }
                 }).addOnFailureListener(new OnFailureListener() {
                     @Override

@@ -1,6 +1,8 @@
 package com.hdp.careup;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -9,6 +11,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,6 +27,8 @@ import java.util.zip.Inflater;
  */
 public class Login extends Fragment {
 
+    private FirebaseAuth firebaseAuth;
+    SharedPreferences preferences;
 
 
     @Nullable
@@ -36,8 +41,8 @@ public class Login extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-
-
+        firebaseAuth = FirebaseAuth.getInstance();
+//        preferences = getSha
 
 //        Click on ** Create New Account **
         view.findViewById(R.id.newAccountLink).setOnClickListener(new View.OnClickListener() {
@@ -82,5 +87,13 @@ public class Login extends Fragment {
             }
         });
 
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        if(getActivity().getSharedPreferences("user_data", Context.MODE_PRIVATE).getString("stat", "0").equals("1")){
+//            TODO -> continue here
+        }
     }
 }

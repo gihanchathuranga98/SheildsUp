@@ -121,7 +121,7 @@ public class GetUserDetails extends Fragment {
             layout.setHelperTextColor(ColorStateList.valueOf(getResources().getColor(R.color.error)));
             validation = false;
         }else{
-            GetOtp.userDetails.setEmail(fName.getText().toString());
+            GetOtp.userDetails.setEmail(email.getText().toString());
         }
 
 //        GetOtp.userDetails.setlName(lName.getText().toString());
