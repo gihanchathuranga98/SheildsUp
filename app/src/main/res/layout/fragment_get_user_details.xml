@@ -42,7 +42,7 @@
             app:layout_constraintTop_toBottomOf="@+id/textView2" />
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/user_data_fname"
+            android:id="@+id/edit_profile_fName"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="335dp"
             android:layout_height="wrap_content"
@@ -54,7 +54,7 @@
             app:layout_constraintTop_toTopOf="parent">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/user_data_fname_text"
+                android:id="@+id/edit_profile_fName_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -64,7 +64,7 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/user_data_lname"
+            android:id="@+id/edit_profile_lName"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="335dp"
             android:layout_height="wrap_content"
@@ -73,10 +73,10 @@
             android:hint="Last Name"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/user_data_fname">
+            app:layout_constraintTop_toBottomOf="@+id/edit_profile_fName">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/user_data_lname_text"
+                android:id="@+id/edit_profile_lName_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -86,7 +86,7 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/user_data_email"
+            android:id="@+id/edit_profile_email"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="335dp"
             android:layout_height="wrap_content"
@@ -95,10 +95,10 @@
             android:hint="Recover Email"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/user_data_lname">
+            app:layout_constraintTop_toBottomOf="@+id/edit_profile_lName">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/user_data_email_text"
+                android:id="@+id/edit_profile_email_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -121,7 +121,7 @@
             android:textAllCaps="false"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/user_data_email" />
+            app:layout_constraintTop_toBottomOf="@+id/edit_profile_email" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </FrameLayout>

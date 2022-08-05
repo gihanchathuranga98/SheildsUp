@@ -2,4 +2,5 @@
     <string name="app_name">CareUp</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="web_client_id">197645658497-qame7sa6ava2c3uapal8bk2lr04m9pue.apps.googleusercontent.com</string>
 </resources>

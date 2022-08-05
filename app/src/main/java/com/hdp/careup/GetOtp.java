@@ -9,8 +9,6 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -21,7 +19,6 @@ import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.FirebaseException;
 import com.google.firebase.auth.AuthResult;
@@ -30,10 +27,8 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.PhoneAuthCredential;
 import com.google.firebase.auth.PhoneAuthOptions;
 import com.google.firebase.auth.PhoneAuthProvider;
-import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.concurrent.TimeUnit;
@@ -51,13 +46,12 @@ public class GetOtp extends Fragment {
     private String mVerificationId;
     private SharedPreferences preferences;
     private FirebaseFirestore db;
-    public static User userDetails;
 
     public GetOtp() {
 
     }
 
-    public GetOtp(@Nullable String mobileNo) {
+    public GetOtp(@NonNull String mobileNo) {
         this();
         this.mobileNo = mobileNo;
         Log.i("OTP", "GetOtp: Mobile No. : " + mobileNo);
@@ -82,8 +76,6 @@ public class GetOtp extends Fragment {
 //        firebase firestore instance setting
         db = FirebaseFirestore.getInstance();
 
-//        User objects to keep the user details
-        userDetails = new User();
 
         ProgressDialog progressDialog = new ProgressDialog(getContext());
         progressDialog.setMessage("Sending OTP...\n(This may take some time)");
@@ -119,11 +111,11 @@ public class GetOtp extends Fragment {
         };
 
 //        when the verify OTP btn is clicked this method will be triggered
-        view.findViewById(R.id.btn_verify_otp).setOnClickListener(new View.OnClickListener() {
+        view.findViewById(R.id.btn_verify_pid).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (!((EditText) view.findViewById(R.id.text_otp)).getText().equals("")) {
-                    String otp = ((EditText) view.findViewById(R.id.text_otp)).getText().toString();
+                if (!((EditText) view.findViewById(R.id.text_pid)).getText().equals("")) {
+                    String otp = ((EditText) view.findViewById(R.id.text_pid)).getText().toString();
                     verifyOtp(otp);
                 } else {
                     Log.i("OTP", "OTP is Empty");
@@ -219,6 +211,7 @@ public class GetOtp extends Fragment {
                         Log.i("OTP", "User is available");
                         Intent intent = new Intent(getContext(), ProfileActivity.class);
                         startActivity(intent);
+                        getActivity().finish();
                     }
                 } else {
 
@@ -237,7 +230,7 @@ public class GetOtp extends Fragment {
 
 
     private void sendMobileNo(String mobileNo) {
-        userDetails.setMobile(mobileNo);
+        MainActivity.userDetails.setMobile(mobileNo);
         Log.i("OTP", "sendMobileNo: Mobile No has set");
         PhoneAuthOptions options =
                 PhoneAuthOptions.newBuilder(firebaseAuth)

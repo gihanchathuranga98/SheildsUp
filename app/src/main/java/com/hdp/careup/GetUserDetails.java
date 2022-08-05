@@ -9,23 +9,14 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
-import android.widget.Toast;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.firestore.FirebaseFirestore;
-
-import org.w3c.dom.Text;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -50,9 +41,9 @@ public class GetUserDetails extends Fragment {
         preferences = getActivity().getSharedPreferences("user_data", Context.MODE_PRIVATE);
         db = FirebaseFirestore.getInstance();
 
-        TextInputEditText fName = (TextInputEditText) view.findViewById(R.id.user_data_fname_text);
-        TextInputEditText lName = (TextInputEditText) view.findViewById(R.id.user_data_lname_text);
-        TextInputEditText email = (TextInputEditText) view.findViewById(R.id.user_data_email_text);
+        TextInputEditText fName = (TextInputEditText) view.findViewById(R.id.edit_profile_fName_text);
+        TextInputEditText lName = (TextInputEditText) view.findViewById(R.id.edit_profile_lName_text);
+        TextInputEditText email = (TextInputEditText) view.findViewById(R.id.edit_profile_email_text);
 
         getActivity().findViewById(R.id.user_data_next_btn).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -65,12 +56,12 @@ public class GetUserDetails extends Fragment {
             }
         });
 
-        getActivity().findViewById(R.id.user_data_fname_text).setOnKeyListener(new View.OnKeyListener() {
+        getActivity().findViewById(R.id.edit_profile_fName_text).setOnKeyListener(new View.OnKeyListener() {
             @Override
             public boolean onKey(View v, int keyCode, KeyEvent event) {
-                TextInputLayout layoutFname = (TextInputLayout)getActivity().findViewById(R.id.user_data_fname);
-                TextInputLayout layoutLname = (TextInputLayout)getActivity().findViewById(R.id.user_data_fname);
-                TextInputLayout layoutEmail = (TextInputLayout)getActivity().findViewById(R.id.user_data_fname);
+                TextInputLayout layoutFname = (TextInputLayout)getActivity().findViewById(R.id.edit_profile_fName);
+                TextInputLayout layoutLname = (TextInputLayout)getActivity().findViewById(R.id.edit_profile_fName);
+                TextInputLayout layoutEmail = (TextInputLayout)getActivity().findViewById(R.id.edit_profile_fName);
 
                 if(!fName.getText().toString().trim().isEmpty()){
                     layoutFname.setHelperTextEnabled(false);
@@ -95,9 +86,9 @@ public class GetUserDetails extends Fragment {
         boolean validation = true;
 
         if(!fName.getText().toString().trim().isEmpty()){
-            GetOtp.userDetails.setfName(fName.getText().toString());
+            MainActivity.userDetails.setfName(fName.getText().toString());
         }else{
-            TextInputLayout layout = (TextInputLayout)getActivity().findViewById(R.id.user_data_fname);
+            TextInputLayout layout = (TextInputLayout)getActivity().findViewById(R.id.edit_profile_fName);
             layout.setHelperTextEnabled(true);
             layout.setHelperText("Required*");
             layout.setHelperTextColor(ColorStateList.valueOf(getResources().getColor(R.color.error)));
@@ -105,9 +96,9 @@ public class GetUserDetails extends Fragment {
         }
 
         if(!lName.getText().toString().trim().isEmpty()){
-            GetOtp.userDetails.setlName(lName.getText().toString());
+            MainActivity.userDetails.setlName(lName.getText().toString());
         }else{
-            TextInputLayout layout = (TextInputLayout)getActivity().findViewById(R.id.user_data_lname);
+            TextInputLayout layout = (TextInputLayout)getActivity().findViewById(R.id.edit_profile_lName);
             layout.setHelperTextEnabled(true);
             layout.setHelperText("Required*");
             layout.setHelperTextColor(ColorStateList.valueOf(getResources().getColor(R.color.error)));
@@ -115,13 +106,13 @@ public class GetUserDetails extends Fragment {
         }
 
         if(!email.getText().toString().trim().isEmpty() && !email.getText().toString().trim().matches("^(.+)@(.+)$")){
-            TextInputLayout layout = (TextInputLayout)getActivity().findViewById(R.id.user_data_email);
+            TextInputLayout layout = (TextInputLayout)getActivity().findViewById(R.id.edit_profile_email);
             layout.setHelperTextEnabled(true);
             layout.setHelperText("Not a valid email");
             layout.setHelperTextColor(ColorStateList.valueOf(getResources().getColor(R.color.error)));
             validation = false;
         }else{
-            GetOtp.userDetails.setEmail(email.getText().toString());
+            MainActivity.userDetails.setEmail(email.getText().toString());
         }
 
 //        GetOtp.userDetails.setlName(lName.getText().toString());

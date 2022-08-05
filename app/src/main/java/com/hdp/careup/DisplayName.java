@@ -64,7 +64,7 @@ public class DisplayName extends Fragment {
 
     private boolean isFieldValid(TextInputEditText displayName, TextInputLayout layout) {
         if(!displayName.getText().toString().trim().isEmpty()){
-            GetOtp.userDetails.setDisplayName(displayName.getText().toString().trim());
+            MainActivity.userDetails.setDisplayName(displayName.getText().toString().trim());
             return true;
         }else{
             layout.setHelperTextEnabled(true);
@@ -76,8 +76,8 @@ public class DisplayName extends Fragment {
 
     private void addUserToFirestore() {
 
-        GetOtp.userDetails.setUserStat(1);
-        db.collection("users").document(preferences.getString("UUID", null)).set(GetOtp.userDetails)
+        MainActivity.userDetails.setUserStat(1);
+        db.collection("users").document(preferences.getString("UUID", null)).set(MainActivity.userDetails)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void unused) {
@@ -87,7 +87,7 @@ public class DisplayName extends Fragment {
                     @Override
                     public void onFailure(@NonNull Exception e) {
                         Log.i("OTP", "onFailure: User details haven't added to the firestore");
-                        Toast.makeText(getContext(), "Operation Faild", Toast.LENGTH_LONG);
+                        Toast.makeText(getContext(), "Operation Faild", Toast.LENGTH_LONG).show();
                     }
                 });
     }

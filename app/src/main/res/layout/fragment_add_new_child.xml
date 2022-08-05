@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".GetOtp">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".AddNewChild">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -26,7 +26,7 @@
                 android:background="@drawable/textfeild"
                 android:ems="10"
                 android:gravity="center"
-                android:hint="Enter OTP"
+                android:hint="Enter PID"
                 android:inputType="number"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -38,7 +38,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="52dp"
                 android:fontFamily="@font/inter_bold"
-                android:text="Verify Phone Number"
+                android:text="Add New Child"
                 android:textColor="@color/primary"
                 android:textSize="30sp"
                 android:textStyle="bold"
@@ -53,7 +53,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="11dp"
                 android:gravity="center"
-                android:text="You will recieve an One Time Password\nin few seconds, please enter that code below."
+                android:text="Enter the PID of the child below.\nYou can find the PID at the Profile secction\nof the child."
                 android:textAllCaps="false"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -65,7 +65,7 @@
                 android:layout_width="138dp"
                 android:layout_height="50dp"
                 android:layout_marginTop="56dp"
-                android:text="Verify"
+                android:text="Add Child"
                 android:textAllCaps="false"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.501"
@@ -73,5 +73,6 @@
                 app:layout_constraintTop_toBottomOf="@+id/text_pid" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </FrameLayout>

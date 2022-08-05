@@ -6,6 +6,8 @@ public class User {
     private String displayName;
     private String mobile;
     private int userStat;
+    private int pairID;
+    private String role;
 
     public User() {
     }
@@ -67,5 +69,21 @@ public class User {
 
     public void setUserStat(int userStat) {
         this.userStat = userStat;
+    }
+
+    public int getPairID() {
+        return pairID;
+    }
+
+    public void setPairID(int pairID) {
+        this.pairID = pairID;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
     }
 }
