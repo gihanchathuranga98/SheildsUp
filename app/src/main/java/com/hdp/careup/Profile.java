@@ -112,8 +112,6 @@ public class Profile extends Fragment {
         TextView profileMobile = (TextView) getActivity().findViewById(R.id.profile_mobileNo);
         TextView profileDisplayName = (TextView) getActivity().findViewById(R.id.profile_displayName);
 
-        ((TextView)view.findViewById(R.id.profile_text_pid)).setText("PID : " + getActivity().getSharedPreferences("user_data", Context.MODE_PRIVATE).getInt("PID", 0));
-
         ActivityResultLauncher<Intent> launcher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(),
                 new ActivityResultCallback<ActivityResult>() {
                     @Override
@@ -199,6 +197,7 @@ public class Profile extends Fragment {
             }
         });
 
+        ((TextView)view.findViewById(R.id.profile_text_pid)).setText("PID : " + getActivity().getSharedPreferences("user_data", Context.MODE_PRIVATE).getInt("PID", 0));
 
     }
 

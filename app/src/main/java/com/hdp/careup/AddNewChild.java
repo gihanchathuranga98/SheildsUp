@@ -15,11 +15,14 @@ import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -45,7 +48,7 @@ public class AddNewChild extends Fragment {
         EditText pairID = view.findViewById(R.id.text_pid);
         firestore = FirebaseFirestore.getInstance();
 
-        view.findViewById(R.id.btn_verify_pid).setOnClickListener(new View.OnClickListener() {
+        view.findViewById(R.id.btn_add_new_pid).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
@@ -59,7 +62,9 @@ public class AddNewChild extends Fragment {
                                 for(DocumentSnapshot document : documents){
 
                                     if((long)document.get("pairID") == Integer.parseInt(pairID.getText().toString())){
-//                                        addChildToParent(document.getReference().toString().replace("users/", ""));
+                                        DocumentReference reference = document.getReference();
+                                        System.out.println("this is the reference -------> " + reference.getPath());
+                                        addChildToParent(reference.getPath().replace("users/", ""), pairID.getText().toString());
                                     }else{
 //                                        Children is not available
                                     }
@@ -75,7 +80,7 @@ public class AddNewChild extends Fragment {
                     });
 
                 }else{
-//                    duplicate entry
+                    Toast.makeText(getContext(), "Invalid PID", Toast.LENGTH_LONG).show();
                 }
 
             }
@@ -87,7 +92,18 @@ public class AddNewChild extends Fragment {
         return false;
     }
 
-    private void addChildToParent(String uid) {
-
+    private void addChildToParent(String uid, String pid) {
+        System.out.println("add child to parent ------------> "+ uid + " - " + pid);
+        Map childDetails = new HashMap();
+        childDetails.put(uid, pid);
+        firestore.collection("users")
+                .document(getActivity().getSharedPreferences("user_data", Context.MODE_PRIVATE).getString("UUID", null))
+                .update("children", childDetails).addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void unused) {
+                        Toast.makeText(getContext(), "Children Added Success..!", Toast.LENGTH_LONG).show();
+                        getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.profile_container, new Settings(), "Back to Settings").commit();
+                    }
+                });
     }
 }

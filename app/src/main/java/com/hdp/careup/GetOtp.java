@@ -111,7 +111,7 @@ public class GetOtp extends Fragment {
         };
 
 //        when the verify OTP btn is clicked this method will be triggered
-        view.findViewById(R.id.btn_verify_pid).setOnClickListener(new View.OnClickListener() {
+        view.findViewById(R.id.btn_add_new_pid).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (!((EditText) view.findViewById(R.id.text_pid)).getText().equals("")) {

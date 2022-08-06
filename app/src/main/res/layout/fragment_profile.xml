@@ -216,27 +216,27 @@
             android:id="@+id/profile_displayName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="168dp"
-            android:layout_marginBottom="7dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="5dp"
             android:text="Chathu_98"
-            android:textColor="@color/white"
+            android:textColor="@color/primary"
             android:textSize="16dp"
             android:textStyle="bold"
-            app:layout_constraintBottom_toTopOf="@+id/profile_text_pid"
-            app:layout_constraintStart_toStartOf="@+id/profile_picture" />
+            app:layout_constraintStart_toEndOf="@+id/profile_picture"
+            app:layout_constraintTop_toBottomOf="@+id/constraintLayout3" />
 
         <TextView
             android:id="@+id/profile_text_pid"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="3dp"
-            android:text="PID"
-            android:textColor="@color/primary"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="20dp"
+            android:text="PID : 324354"
+            android:textColor="@color/white"
             android:textSize="16sp"
             android:textStyle="bold"
-            app:layout_constraintStart_toEndOf="@+id/profile_edit_picture_btn"
-            app:layout_constraintTop_toBottomOf="@+id/constraintLayout3" />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

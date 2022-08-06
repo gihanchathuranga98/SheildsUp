@@ -1,5 +1,7 @@
 package com.hdp.careup;
 
+import java.util.Map;
+
 public class User {
     private String fName;
     private String lName;
@@ -8,6 +10,7 @@ public class User {
     private int userStat;
     private int pairID;
     private String role;
+    private Map<String, String> children;
 
     public User() {
     }
@@ -85,5 +88,13 @@ public class User {
 
     public void setRole(String role) {
         this.role = role;
+    }
+
+    public Map getChildren() {
+        return children;
+    }
+
+    public void setChildren(Map<String, String> children) {
+        this.children = children;
     }
 }
