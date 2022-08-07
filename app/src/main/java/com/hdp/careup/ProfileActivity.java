@@ -63,7 +63,7 @@ public class ProfileActivity extends AppCompatActivity implements NavigationBarV
                             System.out.println(" PID shared preferences ---------> " + getApplicationContext().getSharedPreferences("user_data", Context.MODE_PRIVATE).getInt("PID", 0));
                         }
 
-                        if(userPID.getRole().equals(null) || userPID.getRole().equals("")){
+                        if(userPID.getRole() == null || userPID.getRole().equals("")){
                             System.out.println("came to check user role");
                             addRoleToUser(getApplicationContext().getSharedPreferences("user_data", Context.MODE_PRIVATE)
                                     .getString("UUID", null), userPID);

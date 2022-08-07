@@ -7,6 +7,8 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,10 +16,20 @@ import android.view.ViewGroup;
 import android.widget.CompoundButton;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.switchmaterial.SwitchMaterial;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -42,9 +54,9 @@ public class Settings extends Fragment {
         SwitchMaterial switchMaterial = view.findViewById(R.id.screen_lock_switch);
         firestore = FirebaseFirestore.getInstance();
 
-        if(getActivity().getSharedPreferences("user_data", Context.MODE_PRIVATE).getString("PWD", null) == null){
+        if (getActivity().getSharedPreferences("user_data", Context.MODE_PRIVATE).getString("PWD", null) == null) {
             switchMaterial.setChecked(false);
-        }else{
+        } else {
             switchMaterial.setChecked(true);
         }
 
@@ -52,26 +64,26 @@ public class Settings extends Fragment {
             @Override
             public void onClick(View v) {
                 MaterialAlertDialogBuilder alertDialogBuilder = new MaterialAlertDialogBuilder(getContext());
-                        alertDialogBuilder.setTitle("Are You Sure..?");
-                        alertDialogBuilder.setMessage("Your connected devices will be removed.\nYou cannot recover those connections\nunless you add them manually..!");
-                        alertDialogBuilder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                setRoleToChild();
-                            }
-                        });
-                        alertDialogBuilder.setNegativeButton("No", null);
-                        alertDialogBuilder.show();
+                alertDialogBuilder.setTitle("Are You Sure..?");
+                alertDialogBuilder.setMessage("Your connected devices will be removed.\nYou cannot recover those connections\nunless you add them manually..!");
+                alertDialogBuilder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        setRoleToChild();
+                    }
+                });
+                alertDialogBuilder.setNegativeButton("No", null);
+                alertDialogBuilder.show();
             }
         });
 
         switchMaterial.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if(isChecked){
+                if (isChecked) {
 //                    TODO -> show the set screen pin | store the pin number in shared preference
                     getActivity().getSharedPreferences("user_data", Context.MODE_PRIVATE).edit().putString("PWD", "1").apply();
-                }else{
+                } else {
                     getActivity().getSharedPreferences("user_data", Context.MODE_PRIVATE).edit().remove("PWD").apply();
                 }
             }
@@ -86,6 +98,57 @@ public class Settings extends Fragment {
                         .commit();
             }
         });
+
+        view.findViewById(R.id.linked_child_accounts).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getChildrenFromDb();
+            }
+        });
+
+
+    }
+
+
+    private void getChildrenFromDb() {
+
+        firestore.collection("users")
+                .document(getActivity().getSharedPreferences("user_data", Context.MODE_PRIVATE).getString("UUID", null))
+                .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+
+                        ArrayList<String[]> childrenDetails = new ArrayList<>();
+                        if (task.isSuccessful()) {
+
+                            Map<String, String> children = task.getResult().toObject(User.class).getChildren();
+
+                            Collection<String> values = children.values();
+                            Set<String> keys = children.keySet();
+
+                            for (String uid : keys) {
+                                System.out.println("Checking Map -----> " + uid);
+                                String value = children.get(uid);
+                                String[] details = {uid, value};
+                                childrenDetails.add(details);
+
+                            }
+
+
+                            getParentFragmentManager()
+                                    .beginTransaction()
+                                    .replace(R.id.profile_container, new ListOfChildren(childrenDetails))
+                                    .commit();
+
+
+                            System.out.println("here is the details of children --------> " + childrenDetails.get(0)[1]);
+
+
+                        }
+//                        System.out.println("this is the details of the children --------> " + childrenDetails.get(0)[2]);
+                    }
+                });
+
     }
 
     private void setRoleToChild() {

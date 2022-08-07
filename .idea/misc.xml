@@ -28,6 +28,8 @@
         <entry key="app/src/main/res/layout/activity_profile.xml" value="0.3013320922851563" />
         <entry key="app/src/main/res/layout/activity_splash.xml" value="0.375" />
         <entry key="app/src/main/res/layout/app_container.xml" value="0.13044579533941236" />
+        <entry key="app/src/main/res/layout/child_item_template.xml" value="0.3891889299665179" />
+        <entry key="app/src/main/res/layout/child_layout_template_live_tracking.xml" value="0.2708333333333333" />
         <entry key="app/src/main/res/layout/edit_profile_dialog_content.xml" value="0.41004638671875004" />
         <entry key="app/src/main/res/layout/fragment_add_new_child.xml" value="0.34694496626308025" />
         <entry key="app/src/main/res/layout/fragment_add_profile_pic.xml" value="0.26313405797101447" />
@@ -36,7 +38,7 @@
         <entry key="app/src/main/res/layout/fragment_edit_profile_dialog_content.xml" value="0.26313405797101447" />
         <entry key="app/src/main/res/layout/fragment_get_otp.xml" value="0.375" />
         <entry key="app/src/main/res/layout/fragment_get_user_details.xml" value="0.335" />
-        <entry key="app/src/main/res/layout/fragment_list_of_children.xml" value="0.14336372847011145" />
+        <entry key="app/src/main/res/layout/fragment_list_of_children.xml" value="0.3170346879427677" />
         <entry key="app/src/main/res/layout/fragment_login.xml" value="0.30697174072265626" />
         <entry key="app/src/main/res/layout/fragment_login2.xml" value="0.15070921985815602" />
         <entry key="app/src/main/res/layout/fragment_mobile_login.xml" value="0.335" />
@@ -48,6 +50,7 @@
         <entry key="app/src/main/res/layout/fragment_set_password.xml" value="0.45" />
         <entry key="app/src/main/res/layout/fragment_settings.xml" value="0.335" />
         <entry key="app/src/main/res/layout/fragment_settings_child.xml" value="0.35655975341796875" />
+        <entry key="app/src/main/res/layout/fragment_testing_location.xml" value="0.24905678266933018" />
         <entry key="app/src/main/res/layout/fragment_tracking.xml" value="0.25" />
         <entry key="app/src/main/res/menu/bottom_navigation_menu.xml" value="0.46068572998046875" />
       </map>

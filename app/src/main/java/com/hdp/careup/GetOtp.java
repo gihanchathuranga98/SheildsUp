@@ -114,8 +114,8 @@ public class GetOtp extends Fragment {
         view.findViewById(R.id.btn_add_new_pid).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (!((EditText) view.findViewById(R.id.text_pid)).getText().equals("")) {
-                    String otp = ((EditText) view.findViewById(R.id.text_pid)).getText().toString();
+                if (!((EditText) view.findViewById(R.id.text_otp)).getText().equals("")) {
+                    String otp = ((EditText) view.findViewById(R.id.text_otp)).getText().toString();
                     verifyOtp(otp);
                 } else {
                     Log.i("OTP", "OTP is Empty");

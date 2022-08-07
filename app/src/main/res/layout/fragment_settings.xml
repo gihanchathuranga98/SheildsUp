@@ -95,15 +95,16 @@
         tools:layout_editor_absoluteX="0dp">
 
         <TextView
+            android:id="@+id/linked_child_accounts"
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:layout_gravity="center_vertical"
-            android:gravity="center_vertical"
             android:background="@drawable/riple_animation"
             android:clickable="true"
-            android:focusable="true"
             android:drawableLeft="@drawable/parent_icon"
             android:drawableTint="@color/primary"
+            android:focusable="true"
+            android:gravity="center_vertical"
             android:paddingLeft="20dp"
             android:paddingRight="20dp"
             android:text="     Linked Child Accounts"
