@@ -102,7 +102,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:inputType="textPersonName"
+                android:inputType="textEmailAddress"
                 android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1" />
 
         </com.google.android.material.textfield.TextInputLayout>

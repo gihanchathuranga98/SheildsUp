@@ -128,6 +128,35 @@ public class Login extends Fragment {
         }else{
             MainActivity.userDetails.setMobile("");
         }
+
+        Task<QuerySnapshot> querySnapshotTask = firestore.collection("users").get();
+        querySnapshotTask.addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if(task.isSuccessful()){
+                    boolean available = false;
+
+                    for(DocumentSnapshot snap : task.getResult().getDocuments()){
+
+                        if(snap.getId().equals(user.getUid())){
+                            available = true;
+                            break;
+                        }
+                    }
+
+                    if(!available){
+                        getParentFragmentManager()
+                                .beginTransaction()
+                                .replace(R.id.login_fragment_container, new GetUserDetails(), "LOADING_GET_USER_DETAILS")
+                                .commit();
+                    }else{
+                        Intent intent = new Intent(new MainActivity(), ProfileActivity.class);
+                        startActivity(intent);
+                    }
+                }
+            }
+        });
+
     }
 
 
@@ -143,6 +172,7 @@ public class Login extends Fragment {
 
         firebaseAuth = FirebaseAuth.getInstance();
         storage = FirebaseStorage.getInstance();
+        firestore = FirebaseFirestore.getInstance();
         preferences = getActivity().getSharedPreferences("user_data", Context.MODE_PRIVATE);
 
 //        Click on ** Create New Account **
@@ -202,7 +232,8 @@ public class Login extends Fragment {
     public void onStart() {
         super.onStart();
         if(getActivity().getSharedPreferences("user_data", Context.MODE_PRIVATE).getString("stat", "0").equals("1")){
-//            TODO -> continue here
+            Intent intent = new Intent(getContext(), ProfileActivity.class);
+            startActivity(intent);
         }
     }
 

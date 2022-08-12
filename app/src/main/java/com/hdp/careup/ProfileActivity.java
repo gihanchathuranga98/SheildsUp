@@ -35,6 +35,9 @@ public class ProfileActivity extends AppCompatActivity implements NavigationBarV
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        getSharedPreferences("user_data", Context.MODE_PRIVATE).edit().putString("stat", "1").apply();
+
         setContentView(R.layout.activity_profile);
 
         FragmentManager manager = getSupportFragmentManager();

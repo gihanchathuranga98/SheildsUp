@@ -59,7 +59,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:drawableLeft="@drawable/lock_icon"
+            android:drawableLeft="@drawable/dial_pad"
             android:drawableTint="@color/primary"
             android:paddingLeft="20dp"
             android:layout_weight="20"
@@ -151,6 +151,39 @@
         android:layout_height="1dp"
         android:background="?android:attr/listDivider"
         app:layout_constraintTop_toBottomOf="@+id/parent_linear2"
+        tools:layout_editor_absoluteX="1dp" />
+
+    <LinearLayout
+        android:id="@+id/parent_linear3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/divider7"
+        tools:layout_editor_absoluteX="0dp">
+
+        <TextView
+            android:id="@+id/text_logout_pid"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_gravity="center_vertical"
+            android:background="@drawable/riple_animation"
+            android:clickable="true"
+            android:drawableLeft="@drawable/lock_icon"
+            android:drawableTint="@color/primary"
+            android:focusable="true"
+            android:gravity="center_vertical"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:text="     Log Out"
+            android:textSize="16dp" />
+
+    </LinearLayout>
+
+    <View
+        android:id="@+id/divider8"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="?android:attr/listDivider"
+        app:layout_constraintTop_toBottomOf="@+id/parent_linear3"
         tools:layout_editor_absoluteX="1dp" />
 
 

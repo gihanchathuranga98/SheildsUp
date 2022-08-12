@@ -35,10 +35,11 @@
         <entry key="app/src/main/res/layout/fragment_add_profile_pic.xml" value="0.26313405797101447" />
         <entry key="app/src/main/res/layout/fragment_display_name.xml" value="0.335" />
         <entry key="app/src/main/res/layout/fragment_edit_profile_details_dialog.xml" value="0.26313405797101447" />
-        <entry key="app/src/main/res/layout/fragment_edit_profile_dialog_content.xml" value="0.26313405797101447" />
+        <entry key="app/src/main/res/layout/fragment_edit_profile_dialog_content.xml" value="0.1" />
         <entry key="app/src/main/res/layout/fragment_get_otp.xml" value="0.375" />
         <entry key="app/src/main/res/layout/fragment_get_user_details.xml" value="0.335" />
         <entry key="app/src/main/res/layout/fragment_list_of_children.xml" value="0.3170346879427677" />
+        <entry key="app/src/main/res/layout/fragment_live_tracking.xml" value="0.22570037841796875" />
         <entry key="app/src/main/res/layout/fragment_login.xml" value="0.30697174072265626" />
         <entry key="app/src/main/res/layout/fragment_login2.xml" value="0.15070921985815602" />
         <entry key="app/src/main/res/layout/fragment_mobile_login.xml" value="0.335" />

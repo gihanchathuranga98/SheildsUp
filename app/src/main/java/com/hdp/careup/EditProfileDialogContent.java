@@ -28,18 +28,39 @@ public class EditProfileDialogContent extends DialogFragment {
     TextInputEditText displayNmae;
     TextInputEditText fNmae;
     TextInputEditText lNmae;
+    String fnmae, lname, displayName;
     User user;
+    private View view;
+
+    public EditProfileDialogContent(){
+
+    }
+
+    public EditProfileDialogContent(String fname, String lname, String displayName){
+        this();
+        this.fnmae = fname;
+        this.lname = lname;
+        this.displayName = displayName;
+    }
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_edit_profile_dialog_content, container, false);
+//        return inflater.inflate(R.layout.fragment_edit_profile_dialog_content, container, false);
+        return null;
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         Log.i("DIALOG", "onViewCreated: came to onViewCreated");
+        this.displayNmae = view.findViewById(R.id.edit_profile_display_name_text);
+        this.fNmae = view.findViewById(R.id.edit_profile_fName_text);
+        this.lNmae = view.findViewById(R.id.edit_profile_lName_text);
+
+        displayNmae.setText("displayName");
+        fNmae.setText("fnmae");
+        lNmae.setText("lname");
     }
 
     @NonNull
@@ -51,13 +72,6 @@ public class EditProfileDialogContent extends DialogFragment {
         onViewCreated(getView(), null);
 
         this.user = Profile.userDetails;
-//        displayNmae = getActivity().findViewById(R.id.edit_profile_display_name_text);
-//        fNmae = getActivity().findViewById(R.id.edit_profile_fName_text);
-//        lNmae = getActivity().findViewById(R.id.edit_profile_lName_text);
-//
-//        displayNmae.setText(user.getDisplayName());
-//        fNmae.setText(user.getfName());
-//        lNmae.setText(user.getlName());
 
         System.out.println("Here is user's first name " + user.getfName());
 

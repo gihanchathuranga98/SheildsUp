@@ -17,7 +17,8 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/register_container"
             android:layout_width="371dp"
-            android:layout_height="616dp"
+            android:paddingBottom="20dp"
+            android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="50dp"
             android:background="@drawable/container">
@@ -63,11 +64,14 @@
                 android:layout_marginTop="38dp"
                 android:ems="10"
                 android:hint="First Name"
+                app:errorTextColor="@color/error"
+                app:boxStrokeErrorColor="@color/error"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/createAccount_decription">
 
                 <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/register_firstName_text"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="textPersonName"
@@ -90,6 +94,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/register_firstName">
 
                 <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/register_lastName_text"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="textPersonName"
@@ -111,6 +116,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/register_lastName">
 
                 <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/register_mobile_text"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
@@ -132,6 +138,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/register_mobile">
 
                 <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/register_email_text"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
@@ -153,6 +160,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/register_email">
 
                 <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/register_pwd_text"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="textPassword"
@@ -174,6 +182,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/register_pwd">
 
                 <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/register_cnfrmPwd_text"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="textPassword"
@@ -199,12 +208,11 @@
                 app:strokeColor="@color/primary" />
 
             <Button
-                android:id="@+id/displayName_submit_btn"
+                android:id="@+id/register_submit_btn"
                 android:layout_width="129dp"
                 android:layout_height="50dp"
                 android:layout_marginTop="32dp"
                 android:layout_marginEnd="36dp"
-                android:layout_marginRight="36dp"
                 android:drawableTint="@color/primary"
                 android:text="Submit"
                 android:textAllCaps="false"

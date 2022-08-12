@@ -1,7 +1,9 @@
 package com.hdp.careup;
 
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -103,6 +105,31 @@ public class Settings extends Fragment {
             @Override
             public void onClick(View v) {
                 getChildrenFromDb();
+            }
+        });
+
+        view.findViewById(R.id.text_logout_pid).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                new MaterialAlertDialogBuilder(getContext())
+                        .setTitle("Are You Sure..?")
+                        .setMessage("Do you need to logout?")
+                        .setPositiveButton("YES", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                System.out.println("came to logout");
+                                getActivity().getSharedPreferences("user_data", Context.MODE_PRIVATE).edit().clear().apply();
+                                Intent intent = new Intent(getActivity(), SplashActivity.class);
+                                startActivity(intent);
+                            }
+                        }).setNegativeButton("NO", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+
+                            }
+                        }).show();
+
             }
         });
 

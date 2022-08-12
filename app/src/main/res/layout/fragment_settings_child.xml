@@ -59,7 +59,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:drawableLeft="@drawable/lock_icon"
+            android:drawableLeft="@drawable/dial_pad"
             android:drawableTint="@color/primary"
             android:paddingLeft="20dp"
             android:layout_weight="20"
@@ -111,11 +111,44 @@
     </LinearLayout>
 
     <View
-        android:id="@+id/divider6"
+        android:id="@+id/divider7"
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:background="?android:attr/listDivider"
         app:layout_constraintTop_toBottomOf="@+id/linear"
+        tools:layout_editor_absoluteX="1dp" />
+
+    <LinearLayout
+        android:id="@+id/linear2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/divider7">
+
+        <TextView
+            android:id="@+id/settings_child_logout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:clickable="true"
+            android:background="@drawable/riple_animation"
+            android:focusable="true"
+            android:drawableLeft="@drawable/lock_icon"
+            android:drawableTint="@color/primary"
+            android:height="50dp"
+            android:gravity="center_vertical"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:text="     Log Out"
+            android:textSize="16dp" />
+
+    </LinearLayout>
+
+    <View
+        android:id="@+id/divider8"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="?android:attr/listDivider"
+        app:layout_constraintTop_toBottomOf="@+id/linear2"
         tools:layout_editor_absoluteX="1dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
