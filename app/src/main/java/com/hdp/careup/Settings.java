@@ -149,28 +149,32 @@ public class Settings extends Fragment {
                         if (task.isSuccessful()) {
 
                             Map<String, String> children = task.getResult().toObject(User.class).getChildren();
+                            if(children != null){
 
-                            Collection<String> values = children.values();
-                            Set<String> keys = children.keySet();
+                                Collection<String> values = children.values();
+                                Set<String> keys = children.keySet();
 
-                            for (String uid : keys) {
-                                System.out.println("Checking Map -----> " + uid);
-                                String value = children.get(uid);
-                                String[] details = {uid, value};
-                                childrenDetails.add(details);
+                                for (String uid : keys) {
+                                    System.out.println("Checking Map -----> " + uid);
+                                    String value = children.get(uid);
+                                    String[] details = {uid, value};
+                                    childrenDetails.add(details);
 
+                                }
+
+
+                                getParentFragmentManager()
+                                        .beginTransaction()
+                                        .replace(R.id.profile_container, new ListOfChildren(childrenDetails))
+                                        .commit();
+
+
+                                System.out.println("here is the details of children --------> " + childrenDetails.get(0)[1]);
+
+
+                            }else{
+                                Toast.makeText(getContext(), "No Children Available..!", Toast.LENGTH_SHORT).show();
                             }
-
-
-                            getParentFragmentManager()
-                                    .beginTransaction()
-                                    .replace(R.id.profile_container, new ListOfChildren(childrenDetails))
-                                    .commit();
-
-
-                            System.out.println("here is the details of children --------> " + childrenDetails.get(0)[1]);
-
-
                         }
 //                        System.out.println("this is the details of the children --------> " + childrenDetails.get(0)[2]);
                     }

@@ -1,10 +1,13 @@
 package com.hdp.careup;
 
+import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -16,6 +19,7 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
+import java.util.Map;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -41,7 +45,7 @@ public class LiveTrackingAdapter extends RecyclerView.Adapter<LiveTrackingAdapte
     }
 
     @Override
-    public void onBindViewHolder(@NonNull LiveTrackingAdapter.MyViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull LiveTrackingAdapter.MyViewHolder holder, @SuppressLint("RecyclerView") int position) {
 
         firestore = FirebaseFirestore.getInstance();
         System.out.println("this is the UUID of onBindViewHolder ---> " + uuid.get(position));
@@ -55,7 +59,19 @@ public class LiveTrackingAdapter extends RecyclerView.Adapter<LiveTrackingAdapte
                 long pid = task.getResult().getLong("pairID");
 //                User child = task.getResult().toObject(User.class);
                 holder.name.setText(displayName);
-                holder.id.setText(pid+"");
+                holder.id.setText("PID : " + pid);
+                holder.uid.setText(uuid.get(position));
+            }
+        });
+
+        holder.btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(v.getContext(), MapActivity.class);
+                intent.putExtra("uuid", holder.uid.getText());
+                intent.putExtra("childName", holder.name.getText());
+                v.getContext().startActivity(intent);
+
             }
         });
 
@@ -67,7 +83,7 @@ public class LiveTrackingAdapter extends RecyclerView.Adapter<LiveTrackingAdapte
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
-        TextView name, id;
+        TextView name, id, uid;
         FloatingActionButton btn;
         CircleImageView profile;
         public MyViewHolder(@NonNull View itemView) {
@@ -77,6 +93,7 @@ public class LiveTrackingAdapter extends RecyclerView.Adapter<LiveTrackingAdapte
             id = itemView.findViewById(R.id.template_live_tracking_pid);
             btn = itemView.findViewById(R.id.template_liva_tracking_btn);
             profile = itemView.findViewById(R.id.template_live_tracking_profile);
+            uid = itemView.findViewById(R.id.template_live_tracking_uid);
         }
     }
 }

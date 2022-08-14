@@ -98,6 +98,8 @@ public class GetOtp extends Fragment {
                 Toast.makeText(getContext(), "verification faild", Toast.LENGTH_LONG);
                 System.out.println("verification faild");
                 Log.i("OTP", "Came to Verification Faild");
+                getParentFragmentManager().beginTransaction()
+                         .replace(R.id.login_fragment_container, new MobileLogin(), "").commit();
                 progressDialog.dismiss();
             }
 
@@ -149,6 +151,8 @@ public class GetOtp extends Fragment {
                 }).addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
+                        getParentFragmentManager().beginTransaction().replace(R.id.login_fragment_container, new MobileLogin(), "Back to mobile login").commit();
+                        Toast.makeText(getContext(), "Authentication Faild", Toast.LENGTH_LONG).show();
                         Log.i("OTP", "onComplete: OTP Faild");
                     }
                 });

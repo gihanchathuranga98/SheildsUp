@@ -61,4 +61,13 @@
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/next_icon" />
 
+    <TextView
+        android:id="@+id/template_live_tracking_uid"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="TextView"
+        android:visibility="gone"
+        app:layout_constraintEnd_toStartOf="@+id/template_liva_tracking_btn"
+        app:layout_constraintTop_toTopOf="parent" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

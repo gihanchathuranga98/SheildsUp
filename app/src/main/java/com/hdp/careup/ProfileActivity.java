@@ -12,6 +12,7 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -77,6 +78,7 @@ public class ProfileActivity extends AppCompatActivity implements NavigationBarV
                     }
                 });
 
+
     }
 
     private void addRoleToUser(String uid, User user) {
@@ -106,7 +108,7 @@ public class ProfileActivity extends AppCompatActivity implements NavigationBarV
         switch (item.getItemId()){
             case R.id.profile:
                 getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.profile_container, new Profile(), "profile loaded")
+                        .replace(R.id.profile_container, new Profile(), "profile_")
                         .commit();
                 return true;
             case R.id.tracker:

@@ -26,7 +26,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 /**
- * A simple {@link Fragment} subclass.
+ * A simple {} subclass.
  * Use the {} factory method to
  * create an instance of this fragment.
  */
@@ -90,7 +90,7 @@ public class Register extends Fragment {
                                         getActivity().getSupportFragmentManager()
                                                 .beginTransaction().replace(R.id.login_fragment_container, new Login(), "Register ot login")
                                                 .commit();
-                                    }else{
+                                    } else {
                                         Toast.makeText(getContext(), "Please Try Again..!", Toast.LENGTH_LONG).show();
                                     }
 
@@ -166,31 +166,31 @@ public class Register extends Fragment {
             confirmPwdLabel.setErrorEnabled(true);
         }
 
-        if(!fName.getText().toString().equals("")
+        if (!fName.getText().toString().equals("")
                 && !lName.getText().toString().equals("")
                 && !email.getText().toString().equals("")
                 && !pwd.getText().toString().equals("")
-                && !confirmPwd.getText().toString().equals("")){
-            if(email.getText().toString().matches("[a-z0-9]+@[a-z]+\\.[a-z]{2,3}")){
-                if(pwd.getText().toString().matches("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)[a-zA-Z\\d]{8,}$")){  // TODO -> validate the password properly
-                    if(confirmPwd.getText().toString().equals(pwd.getText().toString())){
+                && !confirmPwd.getText().toString().equals("")) {
+            if (email.getText().toString().matches("[a-z0-9]+@[a-z]+\\.[a-z]{2,3}")) {
+                if (pwd.getText().toString().matches("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)[a-zA-Z\\d]{8,}$")) {  // TODO -> validate the password properly
+                    if (confirmPwd.getText().toString().equals(pwd.getText().toString())) {
                         valid = true;
-                    }else{
+                    } else {
                         confirmPwdLabel.setError("Passwords are not matching");
                         confirmPwdLabel.setErrorEnabled(true);
                     }
-                }else{
+                } else {
                     pwdLabel.setError("Password is not strong enough");
                     pwdLabel.setErrorEnabled(true);
                     valid = false;
                 }
 
-            }else {
+            } else {
                 emailLabel.setError("Email is not valid");
                 emailLabel.setErrorEnabled(true);
                 valid = false;
             }
-        }else{
+        } else {
             valid = false;
         }
 

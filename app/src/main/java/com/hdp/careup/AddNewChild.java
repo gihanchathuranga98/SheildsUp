@@ -121,15 +121,19 @@ public class AddNewChild extends Fragment {
             if (task.isSuccessful()) {
                 Map<String, String> children = task.getResult().toObject(User.class).getChildren();
 //                childDetails = children;
-                System.out.println("here is the size of Map --------> " + children.size());
-                if (children.size() > 0) {
-                    for (String key : children.keySet()) {
-                        System.out.println("inside the for loop of children's keys -------> " + key);
-                        childDetails.put(key, children.get(key));
-                        keyset.add(key);
+//                System.out.println("here is the size of Map --------> " + children.size());
+                if(children != null){
+                    if (children.size() > 0) {
+                        for (String key : children.keySet()) {
+                            System.out.println("inside the for loop of children's keys -------> " + key);
+                            childDetails.put(key, children.get(key));
+                            keyset.add(key);
+                        }
+                    } else {
+                        childDetails.put(uid, pairID.getText().toString());
                     }
-                } else {
-                    childDetails.put(uid, pairID.getText().toString());
+                }else{
+                    Toast.makeText(getContext(), "No Children Available..!", Toast.LENGTH_SHORT).show();
                 }
 
                 if (!keyset.contains(uid)) {

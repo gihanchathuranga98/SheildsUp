@@ -71,7 +71,7 @@ public class EditProfileDialogContent extends DialogFragment {
         LayoutInflater inflater = requireActivity().getLayoutInflater();
         onViewCreated(getView(), null);
 
-        this.user = Profile.userDetails;
+//        this.user = Profile.userDetails;
 
         System.out.println("Here is user's first name " + user.getfName());
 

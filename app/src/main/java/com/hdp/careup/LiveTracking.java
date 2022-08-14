@@ -63,7 +63,7 @@ public class LiveTracking extends Fragment {
                                 uuid.add(key);
                             }
 
-                            RecyclerView recyclerView = getActivity().findViewById(R.id.template_live_tracking_recycle_view);
+                            RecyclerView recyclerView = view.findViewById(R.id.template_live_tracking_recycle_view);
                             recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
                             LiveTrackingAdapter adapter = new LiveTrackingAdapter(uuid);
                             recyclerView.setAdapter(adapter);
