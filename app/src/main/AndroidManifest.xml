@@ -18,6 +18,9 @@
         android:theme="@style/Theme.CareUp"
         android:usesCleartextTraffic="true">
         <activity
+            android:name=".PasswordActivity"
+            android:exported="false" />
+        <activity
             android:name=".MapActivity"
             android:exported="false" />
 
@@ -48,11 +51,9 @@
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
-
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyACEhQ9gIh5Kkou-0lPNly21XiPY-lDGcw" />
-
     </application>
 
 </manifest>
