@@ -84,7 +84,10 @@ public class Settings extends Fragment {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
 //                    TODO -> show the set screen pin | store the pin number in shared preference
-                    getActivity().getSharedPreferences("user_data", Context.MODE_PRIVATE).edit().putString("PWD", "1").apply();
+                    Intent intent = new Intent(getContext(), SetPasswordActivity.class);
+                    intent.putExtra("role", "parent");
+                    startActivity(intent);
+//                    getActivity().getSharedPreferences("user_data", Context.MODE_PRIVATE).edit().putString("PWD", "1").apply();
                 } else {
                     getActivity().getSharedPreferences("user_data", Context.MODE_PRIVATE).edit().remove("PWD").apply();
                 }

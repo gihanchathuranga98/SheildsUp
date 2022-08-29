@@ -1,14 +1,19 @@
 package com.hdp.careup;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.Manifest;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
@@ -30,12 +35,34 @@ import java.util.List;
 
 public class ProfileActivity extends AppCompatActivity implements NavigationBarView.OnItemSelectedListener {
 
+    private static final int LOCATION_PERMISSION_REQUEST_CODE = 1;
     private FirebaseFirestore firestore;
 
 
+    @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        if(isLocationPermissionGranted()){
+//            map.setMyLocationEnabled(true);
+
+
+
+        }else{
+            requestPermissions(
+                    new String[]{
+                            Manifest.permission.ACCESS_FINE_LOCATION,
+                            Manifest.permission.ACCESS_COARSE_LOCATION,
+                            Manifest.permission.ACCESS_BACKGROUND_LOCATION,
+                            Manifest.permission.ACCESS_MEDIA_LOCATION,
+                            Manifest.permission.FOREGROUND_SERVICE,
+                            Manifest.permission.REQUEST_IGNORE_BATTERY_OPTIMIZATIONS
+                    },
+                    LOCATION_PERMISSION_REQUEST_CODE
+            );
+        }
+
 
         getSharedPreferences("user_data", Context.MODE_PRIVATE).edit().putString("stat", "1").apply();
 
@@ -51,6 +78,16 @@ public class ProfileActivity extends AppCompatActivity implements NavigationBarV
         navView2.setSelectedItemId(R.id.profile);
 
         firestore = FirebaseFirestore.getInstance();
+        String role;
+
+        if(getIntent().getExtras() != null){
+            role = getIntent().getExtras().getString("role");
+            if (role.equals("parent")) {
+                getSupportFragmentManager().beginTransaction().replace(R.id.profile_container, new Settings()).commit();
+            } else if (role.equals("child")){
+                getSupportFragmentManager().beginTransaction().replace(R.id.profile_container, new SettingsChild()).commit();
+            }
+        }
 
         firestore.collection("users")
                 .document(getApplicationContext().getSharedPreferences("user_data", Context.MODE_PRIVATE)
@@ -58,16 +95,16 @@ public class ProfileActivity extends AppCompatActivity implements NavigationBarV
                     @Override
                     public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                         User userPID = task.getResult().toObject(User.class);
-                        if(userPID.getPairID() == 0){
+                        if (userPID.getPairID() == 0) {
                             int pid = generateRandomId();
                             setPairID(pid, userPID);
-                        }else{
+                        } else {
                             System.out.println("user PID is available");
                             getApplicationContext().getSharedPreferences("user_data", Context.MODE_PRIVATE).edit().putInt("PID", userPID.getPairID()).apply();
                             System.out.println(" PID shared preferences ---------> " + getApplicationContext().getSharedPreferences("user_data", Context.MODE_PRIVATE).getInt("PID", 0));
                         }
 
-                        if(userPID.getRole() == null || userPID.getRole().equals("")){
+                        if (userPID.getRole() == null || userPID.getRole().equals("")) {
                             System.out.println("came to check user role");
                             addRoleToUser(getApplicationContext().getSharedPreferences("user_data", Context.MODE_PRIVATE)
                                     .getString("UUID", null), userPID);
@@ -105,19 +142,19 @@ public class ProfileActivity extends AppCompatActivity implements NavigationBarV
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-        switch (item.getItemId()){
+        switch (item.getItemId()) {
             case R.id.profile:
                 getSupportFragmentManager().beginTransaction()
                         .replace(R.id.profile_container, new Profile(), "profile_")
                         .commit();
                 return true;
             case R.id.tracker:
-                if(getApplicationContext().getSharedPreferences("user_data", Context.MODE_PRIVATE)
-                        .getString("ROLE", null).equalsIgnoreCase("PARENT")){
+                if (getApplicationContext().getSharedPreferences("user_data", Context.MODE_PRIVATE)
+                        .getString("ROLE", null).equalsIgnoreCase("PARENT")) {
                     getSupportFragmentManager().beginTransaction()
                             .replace(R.id.profile_container, new Tracking(), "Tracking loaded")
                             .commit();
-                }else{
+                } else {
                     getSupportFragmentManager().beginTransaction()
                             .replace(R.id.profile_container, new NoTrackingForChild(), "Tracking loaded")
                             .commit();
@@ -126,28 +163,28 @@ public class ProfileActivity extends AppCompatActivity implements NavigationBarV
                 return true;
             case R.id.settings:
 
-                        if(getApplicationContext().getSharedPreferences("user_data", Context.MODE_PRIVATE)
-                                .getString("ROLE", null).equalsIgnoreCase("PARENT")){
-                            getSupportFragmentManager().beginTransaction()
-                                    .replace(R.id.profile_container, new Settings(), "Tracking loaded")
-                                    .commit();
-                        }else{
-                            getSupportFragmentManager().beginTransaction()
-                                    .replace(R.id.profile_container, new SettingsChild(), "Tracking loaded")
-                                    .commit();
-                        }
+                if (getApplicationContext().getSharedPreferences("user_data", Context.MODE_PRIVATE)
+                        .getString("ROLE", null).equalsIgnoreCase("PARENT")) {
+                    getSupportFragmentManager().beginTransaction()
+                            .replace(R.id.profile_container, new Settings(), "Tracking loaded")
+                            .commit();
+                } else {
+                    getSupportFragmentManager().beginTransaction()
+                            .replace(R.id.profile_container, new SettingsChild(), "Tracking loaded")
+                            .commit();
+                }
 
                 return true;
         }
         return false;
     }
 
-    private int generateRandomId(){
+    private int generateRandomId() {
         int id;
         do {
-            id = (int)Math.floor(Math.random() * 1000000);
+            id = (int) Math.floor(Math.random() * 1000000);
             System.out.println("came to generateRandomID()");
-        }while (isPairIdUnique(id));
+        } while (isPairIdUnique(id));
         System.out.println("return id -----> " + id);
         return id;
     }
@@ -158,9 +195,9 @@ public class ProfileActivity extends AppCompatActivity implements NavigationBarV
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 List<User> users = task.getResult().toObjects(User.class);
-                for(User userNew : users){
+                for (User userNew : users) {
                     System.out.println("user paidID -------> " + userNew.getPairID());
-                    if(userNew.getPairID() == id){
+                    if (userNew.getPairID() == id) {
                         getApplicationContext().getSharedPreferences("user_data", Context.MODE_PRIVATE).edit().putBoolean("unique", true).apply();
                     }
                 }
@@ -169,4 +206,41 @@ public class ProfileActivity extends AppCompatActivity implements NavigationBarV
         return getApplicationContext().getSharedPreferences("user_data", Context.MODE_PRIVATE).getBoolean("unique", true);
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.M)
+    private boolean isLocationPermissionGranted() {
+        if(checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED
+                || checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED){
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
+        boolean permissionGranted = false;
+
+        if(requestCode == LOCATION_PERMISSION_REQUEST_CODE){
+            for(int i = 0; i < permissions.length; i++){
+                if(permissions[i].equals(Manifest.permission.ACCESS_FINE_LOCATION) && grantResults[i] == PackageManager.PERMISSION_GRANTED){
+                    permissionGranted = true;
+                }else if (permissions[i].equals(Manifest.permission.ACCESS_COARSE_LOCATION) && grantResults[i] == PackageManager.PERMISSION_GRANTED){
+                    permissionGranted = true;
+                }else if (permissions[i].equals(Manifest.permission.ACCESS_BACKGROUND_LOCATION) && grantResults[i] == PackageManager.PERMISSION_GRANTED){
+                    permissionGranted = true;
+                }else if (permissions[i].equals(Manifest.permission.ACCESS_MEDIA_LOCATION) && grantResults[i] == PackageManager.PERMISSION_GRANTED){
+                    permissionGranted = true;
+                }else if (permissions[i].equals(Manifest.permission.REQUEST_IGNORE_BATTERY_OPTIMIZATIONS) && grantResults[i] == PackageManager.PERMISSION_GRANTED){
+                    permissionGranted = true;
+                }
+            }
+
+            if(permissionGranted){
+//                map.setMyLocationEnabled(true);
+                Log.e("TAG", "onRequestPermissionsResult: permission granted");
+            }
+        }
+
+    }
 }

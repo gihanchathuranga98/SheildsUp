@@ -49,19 +49,23 @@ public class SettingsChild extends Fragment {
         parentFragmentManager = getParentFragmentManager();
 
 
-        if(getActivity().getSharedPreferences("user_data", Context.MODE_PRIVATE).getString("PWD", null) == null){
+        if (getActivity().getSharedPreferences("user_data", Context.MODE_PRIVATE).getString("PWD", null) == null) {
             switchMaterial.setChecked(false);
-        }else{
+        } else {
             switchMaterial.setChecked(true);
         }
 
         switchMaterial.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if(isChecked){
-//                    TODO -> show the set screen pin | store the pin number in shared preference
+                if (isChecked) {
+
+                    Intent intent = new Intent(getContext(), SetPasswordActivity.class);
+                    intent.putExtra("role", "child");
+                    startActivity(intent);
+
                     getActivity().getSharedPreferences("user_data", Context.MODE_PRIVATE).edit().putString("PWD", "1").apply();
-                }else{
+                } else {
                     getActivity().getSharedPreferences("user_data", Context.MODE_PRIVATE).edit().remove("PWD").apply();
                 }
             }

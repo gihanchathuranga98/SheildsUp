@@ -15,6 +15,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.google.android.material.textfield.TextInputEditText;
 
@@ -61,6 +62,9 @@ public class EditProfileDialogContent extends DialogFragment {
         displayNmae.setText("displayName");
         fNmae.setText("fnmae");
         lNmae.setText("lname");
+
+
+
     }
 
     @NonNull
@@ -83,14 +87,20 @@ public class EditProfileDialogContent extends DialogFragment {
                     @Override
                     public void onClick(DialogInterface dialog, int id) {
                         // sign in the user ...
+
                     }
                 })
                 .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
-
+                        Toast.makeText(getContext(), "Cancel Click", Toast.LENGTH_SHORT).show();
                     }
                 });
-        return builder.create();
+
+        AlertDialog alertDialog = builder.create();
+
+        return alertDialog;
+
+
     }
 
 }

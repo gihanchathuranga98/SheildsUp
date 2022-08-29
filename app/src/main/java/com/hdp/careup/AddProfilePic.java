@@ -47,6 +47,7 @@ public class AddProfilePic extends Fragment {
     FirebaseStorage storage;
     Uri imgPath;
     ProgressDialog dialog;
+    Context context;
 
     @Nullable
     @Override
@@ -72,7 +73,7 @@ public class AddProfilePic extends Fragment {
         getActivity().findViewById(R.id.profile_pic_skip_btn).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getContext(), ProfileActivity.class);
+                Intent intent = new Intent(context, ProfileActivity.class);
                 startActivity(intent);
                 getActivity().finish();
             }
@@ -132,4 +133,10 @@ public class AddProfilePic extends Fragment {
                 });
     }
 
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        this.context = context;
+
+    }
 }

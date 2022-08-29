@@ -4,9 +4,11 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -43,9 +45,18 @@ public class SplashActivity extends AppCompatActivity {
                     public void run() {
                         try {
                             Thread.sleep(2000);
-                            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                            int pwd = getSharedPreferences("user_data", Context.MODE_PRIVATE).getInt("pwd", 0);
+                            String pwdStat = getSharedPreferences("user_data", Context.MODE_PRIVATE).getString("PWD", null);
+                            Log.e("TAG", "run PWD : " + pwd);
+                            Intent intent;
+                            if(pwdStat != null){
+                                intent = new Intent(getApplicationContext(), PasswordActivity.class);
+                            }else{
+                                intent = new Intent(getApplicationContext(), MainActivity.class);
+                            }
                             startActivity(intent);
                             finish();
+
                         } catch (InterruptedException e) {
                             e.printStackTrace();
                         }

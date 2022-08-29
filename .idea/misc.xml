@@ -26,7 +26,9 @@
         <entry key="app/src/main/res/font/inter_bold.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.25" />
         <entry key="app/src/main/res/layout/activity_map.xml" value="0.14336372847011145" />
+        <entry key="app/src/main/res/layout/activity_password.xml" value="0.335" />
         <entry key="app/src/main/res/layout/activity_profile.xml" value="0.3013320922851563" />
+        <entry key="app/src/main/res/layout/activity_set_password.xml" value="0.27807971014492755" />
         <entry key="app/src/main/res/layout/activity_splash.xml" value="0.375" />
         <entry key="app/src/main/res/layout/app_container.xml" value="0.13044579533941236" />
         <entry key="app/src/main/res/layout/child_item_template.xml" value="0.3891889299665179" />
@@ -36,7 +38,7 @@
         <entry key="app/src/main/res/layout/fragment_add_profile_pic.xml" value="0.26313405797101447" />
         <entry key="app/src/main/res/layout/fragment_display_name.xml" value="0.335" />
         <entry key="app/src/main/res/layout/fragment_edit_profile_details_dialog.xml" value="0.26313405797101447" />
-        <entry key="app/src/main/res/layout/fragment_edit_profile_dialog_content.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/fragment_edit_profile_dialog_content.xml" value="0.25" />
         <entry key="app/src/main/res/layout/fragment_get_otp.xml" value="0.375" />
         <entry key="app/src/main/res/layout/fragment_get_user_details.xml" value="0.335" />
         <entry key="app/src/main/res/layout/fragment_list_of_children.xml" value="0.3170346879427677" />

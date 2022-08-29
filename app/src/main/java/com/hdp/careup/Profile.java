@@ -1,13 +1,17 @@
 package com.hdp.careup;
 
+import android.Manifest;
 import android.app.Activity;
 import android.app.ActivityManager;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.app.Service;
 import android.content.Context;
+import android.content.ContextWrapper;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -45,6 +49,9 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.hdp.careup.services.ChildLocationService;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import de.hdodenhof.circleimageview.CircleImageView;
 
 /**
@@ -72,9 +79,30 @@ public class Profile extends Fragment {
         return inflater.inflate(R.layout.fragment_profile, container, false);
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        Log.e("TAG", "onViewCreated:came to onViewCreated()");
+        if(!isLocationPermissionGranted()){
+//            map.setMyLocationEnabled(true);
+
+            Log.e("TAG", "onViewCreated:came to isLocationPermissionGranted()");
+
+        }else{
+            Log.e("TAG", "onViewCreated:came to requestPermissions()");
+            requestPermissions(
+                    new String[]{
+                            Manifest.permission.ACCESS_FINE_LOCATION,
+                            Manifest.permission.ACCESS_COARSE_LOCATION,
+                            Manifest.permission.ACCESS_BACKGROUND_LOCATION,
+                            Manifest.permission.ACCESS_MEDIA_LOCATION,
+                            Manifest.permission.FOREGROUND_SERVICE,
+                            Manifest.permission.REQUEST_IGNORE_BATTERY_OPTIMIZATIONS
+                    },
+                    1
+            );
+        }
 
 
         storage = FirebaseStorage.getInstance();
@@ -82,6 +110,7 @@ public class Profile extends Fragment {
         preferences = getContext().getSharedPreferences("user_data", Context.MODE_PRIVATE);
         dialog = new ProgressDialog(getContext());
         user = FirebaseAuth.getInstance().getCurrentUser();
+
 
         ActivityResultLauncher<Intent> launcher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(),
                 new ActivityResultCallback<ActivityResult>() {
@@ -119,17 +148,40 @@ public class Profile extends Fragment {
                 Dialog editDialog = new Dialog(getActivity());
                 LayoutInflater inflater = requireActivity().getLayoutInflater();
                 editDialog.setContentView(inflater.inflate(R.layout.fragment_edit_profile_dialog_content, null));
-                editDialog.getWindow().setLayout(1050, ViewGroup.LayoutParams.WRAP_CONTENT);
+                editDialog.getWindow().setLayout(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
 
-                ((EditText)editDialog.findViewById(R.id.edit_profile_display_name_text)).setText("Gihan Chathruanga");
-                ((EditText)editDialog.findViewById(R.id.edit_profile_fName_text)).setText("Gihan");
-                ((EditText)editDialog.findViewById(R.id.edit_profile_lName_text)).setText("Chathuranga");
+//                TODO-> add existing details to popup window
+                TextView displayName = view.findViewById(R.id.profile_displayName);
+
+                ((EditText)editDialog.findViewById(R.id.edit_profile_display_name_text)).setText(displayName.getText());
+                ((EditText)editDialog.findViewById(R.id.edit_profile_fName_text)).setText(getName(0));
+                ((EditText)editDialog.findViewById(R.id.edit_profile_lName_text)).setText(getName(1));
                 editDialog.show();
+
+                editDialog.findViewById(R.id.dialog_cancel).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        editDialog.dismiss();
+                    }
+                });
+
+                editDialog.findViewById(R.id.dialog_save).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        String displayName = ((EditText) editDialog.findViewById(R.id.edit_profile_display_name_text)).getText().toString();
+                        String fName = ((EditText) editDialog.findViewById(R.id.edit_profile_fName_text)).getText().toString();
+                        String lName = ((EditText) editDialog.findViewById(R.id.edit_profile_lName_text)).getText().toString();
+                        saveProfileData(displayName, fName, lName, editDialog);
+
+                    }
+                });
+
             }
         });
 
 
         StorageReference reference = storage.getReference().child("profile_pics/" + preferences.getString("UUID", null));
+//        TODO -> reference for the profile picture
         reference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
             @Override
             public void onSuccess(Uri uri) {
@@ -214,6 +266,38 @@ public class Profile extends Fragment {
         });
     }
 
+    private void saveProfileData(String displayName, String fName, String lName, Dialog dialog) {
+        Map map = new HashMap();
+        map.put("fName", fName);
+        map.put("lName", lName);
+        map.put("displayName", displayName);
+        firestore.collection("users").document(getContext().getSharedPreferences("user_data", Context.MODE_PRIVATE).getString("UUID", "")).update(map).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                dialog.dismiss();
+            }
+        });
+    }
+
+    private String getName(int i) {
+        TextView name = getView().findViewById(R.id.profile_name);
+        String[] names = name.getText().toString().trim().split(" ");
+        if(i == 0){
+            if(names.length == 2){
+                return names[0];
+            }else{
+                return name.getText().toString();
+            }
+        }else{
+            if(names.length == 2){
+                return names[1];
+            }else{
+                return null;
+            }
+        }
+    }
+
+
     private boolean foregroundServiceRunning(){
         ActivityManager activityManager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
         for(ActivityManager.RunningServiceInfo service : activityManager.getRunningServices(Integer.MAX_VALUE)){
@@ -233,6 +317,7 @@ public class Profile extends Fragment {
                     @Override
                     public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                         dialog.dismiss();
+                        updateProfilePicture();
                         //Toast.makeText(getContext(), "Success", //Toast.LENGTH_LONG).show();
 //                        Intent intent = new Intent(getContext(), ProfileActivity.class);
 //                        startActivity(intent);
@@ -252,6 +337,28 @@ public class Profile extends Fragment {
                         dialog.show();
                     }
                 });
+    }
+
+    private void updateProfilePicture() {
+        StorageReference reference = storage.getReference().child("profile_pics/" + preferences.getString("UUID", null));
+//        TODO -> reference for the profile picture
+        reference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+            @Override
+            public void onSuccess(Uri uri) {
+                CircleImageView circleProfile = getActivity().findViewById(R.id.profile_picture);
+                if(uri.equals("") || uri == null){
+
+                }else{
+                    Glide.with(context).load(uri).into(circleProfile);
+                }
+                //Toast.makeText(getContext(), "Profile Pic Updated", //Toast.LENGTH_LONG).show();
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                //Toast.makeText(getContext(), "Profile Picture Loading is Failed", //Toast.LENGTH_LONG).show();
+            }
+        });
     }
 
     @Override
@@ -294,6 +401,44 @@ public class Profile extends Fragment {
         });
 
         ((TextView)getActivity().findViewById(R.id.profile_text_pid)).setText("PID : " + getActivity().getSharedPreferences("user_data", Context.MODE_PRIVATE).getInt("PID", 0));
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.M)
+    private boolean isLocationPermissionGranted() {
+        if(getActivity().checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED
+                || getActivity().checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED){
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
+        boolean permissionGranted = false;
+
+        if(requestCode == 1){
+            for(int i = 0; i < permissions.length; i++){
+                if(permissions[i].equals(Manifest.permission.ACCESS_FINE_LOCATION) && grantResults[i] == PackageManager.PERMISSION_GRANTED){
+                    permissionGranted = true;
+                }else if (permissions[i].equals(Manifest.permission.ACCESS_COARSE_LOCATION) && grantResults[i] == PackageManager.PERMISSION_GRANTED){
+                    permissionGranted = true;
+                }else if (permissions[i].equals(Manifest.permission.ACCESS_BACKGROUND_LOCATION) && grantResults[i] == PackageManager.PERMISSION_GRANTED){
+                    permissionGranted = true;
+                }else if (permissions[i].equals(Manifest.permission.ACCESS_MEDIA_LOCATION) && grantResults[i] == PackageManager.PERMISSION_GRANTED){
+                    permissionGranted = true;
+                }else if (permissions[i].equals(Manifest.permission.REQUEST_IGNORE_BATTERY_OPTIMIZATIONS) && grantResults[i] == PackageManager.PERMISSION_GRANTED){
+                    permissionGranted = true;
+                }
+            }
+
+            if(permissionGranted){
+//                map.setMyLocationEnabled(true);
+                Log.e("TAG", "onRequestPermissionsResult: permission granted");
+            }
+        }
+
     }
 
 }

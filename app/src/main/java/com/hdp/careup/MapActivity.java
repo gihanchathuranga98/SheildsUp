@@ -69,7 +69,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     private void setMarkerChild(LatLng latLng) {
         if (marker_child == null) {
             markerOptions = new MarkerOptions();
-            markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.marker));
+            markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.kid));
             markerOptions.title(childName);
             markerOptions.position(latLng);
             marker_child = map.addMarker(markerOptions);

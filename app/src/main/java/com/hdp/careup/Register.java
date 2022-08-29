@@ -24,6 +24,7 @@ import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 /**
  * A simple {} subclass.
@@ -34,6 +35,7 @@ public class Register extends Fragment {
 
     FirebaseAuth mAuth;
     FirebaseUser user;
+    FirebaseFirestore firestore;
     TextInputEditText fName, lName, mobile, email, pwd, confirmPwd;
     TextInputLayout fNameLabel, lNameLabel, mobileLabel, emailLabel, pwdLabel, confirmPwdLabel;
 
@@ -47,6 +49,8 @@ public class Register extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+
+        firestore = FirebaseFirestore.getInstance();
 
         mAuth = FirebaseAuth.getInstance();
         user = mAuth.getCurrentUser();
@@ -81,21 +85,29 @@ public class Register extends Fragment {
             public void onClick(View v) {
 
                 if (isValide()) {
-                    mAuth.createUserWithEmailAndPassword(email.getText().toString(), pwd.getText().toString())
-                            .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                                @Override
-                                public void onComplete(@NonNull Task<AuthResult> task) {
+                    try {
+                        mAuth.createUserWithEmailAndPassword(email.getText().toString(), pwd.getText().toString())
+                                .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<AuthResult> task) {
 
-                                    if (task.isSuccessful()) {
-                                        getActivity().getSupportFragmentManager()
-                                                .beginTransaction().replace(R.id.login_fragment_container, new Login(), "Register ot login")
-                                                .commit();
-                                    } else {
-                                        Toast.makeText(getContext(), "Please Try Again..!", Toast.LENGTH_LONG).show();
+                                        if (task.isSuccessful()) {
+                                            String uid = task.getResult().getUser().getUid();
+                                            addDataToFirestore(uid);
+
+                                        } else {
+                                            Log.e("TAG", "onComplete: " + task.getResult());
+                                            Toast.makeText(getContext(), "Please Try Again..!", Toast.LENGTH_LONG).show();
+                                        }
+
                                     }
-
-                                }
-                            });
+                                });
+                    }catch (RuntimeException e){
+                        Toast.makeText(getContext(), "Recheck the email..!", Toast.LENGTH_LONG).show();
+                        email.setText("");
+                        emailLabel.setErrorEnabled(true);
+                        emailLabel.setError("Change the Email*");
+                    }
                 }
             }
         });
@@ -122,6 +134,29 @@ public class Register extends Fragment {
 //            }
 //        });
 
+    }
+
+    private void addDataToFirestore(String uid) {
+//        TODO -> addDataToFirestore
+        User user = new User();
+        user.setfName(fName.getText().toString().trim());
+        user.setlName(lName.getText().toString().trim());
+        user.setRole("PARENT");
+        user.setEmail(email.getText().toString().trim());
+        user.setMobile(mobile.getText().toString().trim());
+        user.setUserStat(1);
+        firestore.collection("users")
+                .document(uid)
+                .set(user)
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+//                Toast.makeText(getContext(), "User Registered Successfully..!", Toast.LENGTH_LONG).show();
+                getActivity().getSupportFragmentManager()
+                        .beginTransaction().replace(R.id.login_fragment_container, new Login(), "Register ot login")
+                        .commit();
+            }
+        });
     }
 
     @SuppressLint("ResourceAsColor")
@@ -172,7 +207,7 @@ public class Register extends Fragment {
                 && !pwd.getText().toString().equals("")
                 && !confirmPwd.getText().toString().equals("")) {
             if (email.getText().toString().matches("[a-z0-9]+@[a-z]+\\.[a-z]{2,3}")) {
-                if (pwd.getText().toString().matches("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)[a-zA-Z\\d]{8,}$")) {  // TODO -> validate the password properly
+                if (pwd.getText().toString().matches("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{8,}$")) {  // TODO -> validate the password properly
                     if (confirmPwd.getText().toString().equals(pwd.getText().toString())) {
                         valid = true;
                     } else {

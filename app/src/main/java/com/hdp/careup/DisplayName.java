@@ -17,11 +17,17 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -52,14 +58,44 @@ public class DisplayName extends Fragment {
         submitBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(isFieldValid(displayName, layout)){
-                    addUserToFirestore();
-                    getParentFragmentManager().beginTransaction().replace(R.id.login_fragment_container,
-                            new AddProfilePic(), "ADD_PROFILE_PIC").commit();
-                }
+                db.collection("users").document(getActivity()
+                        .getSharedPreferences("user_data", Context.MODE_PRIVATE).getString("UUID", ""))
+                        .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                            @Override
+                            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                if(task.isSuccessful()){
+                                    String fName = task.getResult().getString("fName");
+                                    if(fName != null && !fName.isEmpty()){
+                                        updateDisplayName(displayName);
+                                    }else{
+                                        if(isFieldValid(displayName, layout)){
+                                            addUserToFirestore();
+                                            getParentFragmentManager().beginTransaction().replace(R.id.login_fragment_container,
+                                                    new AddProfilePic(), "ADD_PROFILE_PIC").commit();
+                                        }
+                                    }
+                                }
+                            }
+                        });
             }
         });
 
+    }
+
+    private void updateDisplayName(TextInputEditText displayName) {
+
+        Map map = new HashMap();
+        map.put("displayName", displayName.getText().toString().trim());
+
+        db.collection("users")
+                .document(getActivity().getSharedPreferences("user_data", Context.MODE_PRIVATE).getString("UUID", ""))
+                .update(map).addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        getParentFragmentManager().beginTransaction().replace(R.id.login_fragment_container,
+                                new AddProfilePic(), "ADD_PROFILE_PIC").commit();
+                    }
+                });
     }
 
     private boolean isFieldValid(TextInputEditText displayName, TextInputLayout layout) {
